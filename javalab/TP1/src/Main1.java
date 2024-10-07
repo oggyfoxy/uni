@@ -1,8 +1,7 @@
-
 import java.util.Scanner;
 
 // Main class
-public class Main {
+public class Main1 {
     public static void main(String[] args) {
 
         /*
@@ -48,7 +47,6 @@ public class Main {
         multiplicationTable();
 
          */
-
     }
 
 
