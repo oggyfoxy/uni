@@ -1,3 +1,5 @@
+import com.sun.tools.javac.Main;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -22,6 +24,9 @@ public class Main2 {
         System.out.println("[13] Rechercher un caractere");
         System.out.println("[14] Distance de hamming");
         System.out.println("[15] Suppression d'une chaine de caractere");
+        System.out.println("[16] Scrabble");
+        System.out.println("[17] Anagramme");
+        System.out.println("[18] Calculatrice");
 
 
 
@@ -80,23 +85,30 @@ public class Main2 {
                 String suppr = suppresion('a', "baldaquin");
                 System.out.println(suppr);
                 break;
+            case 16:
+                boolean scra = scrabble("bungalows", "hbteslo");
+                System.out.println(scra);
+                break;
+            case 17:
+                boolean ana = anagramme("parisien", "aspirine");
+                System.out.println(ana);
+                break;
+            case 18:
+                int nombre = calculatrice("2+6+74+13");
+                System.out.println(nombre);
+                break;
+            default:
+                System.out.println("Erreur");
+                break;
+
         }
 
     }
-    /* 5.1 - Sum of two integer */
-    public static void sum() {
-        Main1.sum();
 
-    }
 
     /* 5.2 - Division between two Integers */
     public static void division() {
         Main1.division();
-    }
-
-    /* 5.3 - Calculation of the Volume of a Rectangular Prism */
-    public static void volume() {
-        Main1.volume();
     }
 
 
@@ -310,17 +322,47 @@ public class Main2 {
         return s;
     }
 
-    public static void scrabble(String mot, String lettres_disponibles) {
+    public static boolean scrabble(String mot, String lettres_disponibles) {
 
         for (int i = 0; i < mot.length(); i++) {
-            if (mot.charAt(i) != lettres_disponibles.charAt(i))
-
-
-
+            if (lettres_disponibles.indexOf(mot.charAt(i)) == -1 ) {
+                return false;
+            }
+            else {
+                suppresion(mot.charAt(i), lettres_disponibles);
+            }
         }
+        return true;
+    }
+
+    public static boolean anagramme(String u, String v) {
+        if (u.length() != v.length())
+            return false;
+        char[] string1 = u.toCharArray();
+        char[] string2 = v.toCharArray();
+        Arrays.sort(string1);
+        Arrays.sort(string2);
+
+        return Arrays.equals(string1, string2);
 
     }
 
+    public static int calculatrice(String s) {
 
+        if (s.length() == 0 || s.startsWith("+") || s.endsWith("+") || s.contains("++"))
+            return -1;
+
+        String[] numbers = s.split("\\+");
+        int totalSum = 0;
+
+        for (String number : numbers) {
+            if (!number.matches("\\d+")) {
+                return -1;
+            }
+            totalSum += Integer.parseInt(number);
+        }
+        return totalSum;
+
+    }
 
 }
