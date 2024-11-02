@@ -1,10 +1,10 @@
-import com.sun.tools.javac.Main;
+package tp2;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 // TP2
-public class Main2 {
+public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -108,45 +108,45 @@ public class Main2 {
 
     /* 5.2 - Division between two Integers */
     public static void division() {
-        Main1.division();
+        Main.division();
     }
 
 
     /* 7.1 Calculation of the Discriminant of a Quadratic Equation */
     public static void discriminant() {
-        Main1.discriminant();
+        Main.discriminant();
     }
 
 
     /* 7.2 The Parity of a Number */
     public static void parity() {
-        Main1.parity();
+        Main.parity();
     }
 
     /* 7.3 Extremum Calculation */
     public static void max() {
-        Main1.max();
+        Main.max();
     }
 
     /* 7.4 Iterative structures */
     public static void factorial() {
-        Main1.factorial();
+        Main.factorial();
     }
 
 
     /* 7.5 Countdown */
     public static void countdown() {
-        Main1.countdown();
+        Main.countdown();
     }
 
     /* 7.6 Squares */
     public static void squares() {
-       Main1.squares();
+       Main.squares();
     }
 
     /* 7.7 Multiplication Table */
     public static void multiplicationTable() {
-        Main1.multiplicationTable();
+        Main.multiplicationTable();
     }
 
 
