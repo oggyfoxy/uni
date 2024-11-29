@@ -15,7 +15,7 @@ public class Guitar extends StringInstrument {
 
     @Override
     public String technicalDocument() {
-        String name;
+        String name = "";
         return "Guitar[name=" + name + ", isElectric=" + isElectric + ", length=" + length +
                 ", width=" + width + ", hasAmpAndPedals=" + hasAmpAndPedals + ", gauge=" + gauge + "]";
     }
