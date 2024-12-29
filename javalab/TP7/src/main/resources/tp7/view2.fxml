@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.tp7.Ex2Controller">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <TextField fx:id="number1Field" promptText="First number"/>
+    <TextField fx:id="number2Field" promptText="Second number"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Add" onAction="#onAddClick"/>
+        <Button text="Subtract" onAction="#onSubtractClick"/>
+        <Button text="Multiply" onAction="#onMultiplyClick"/>
+        <Button text="Divide" onAction="#onDivideClick"/>
+    </HBox>
+
+    <Label fx:id="resultLabel" text="Result: "/>
+</VBox>

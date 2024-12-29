@@ -1,0 +1,16 @@
+<plugin>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-maven-plugin</artifactId>
+    <version>0.0.8</version>
+    <configuration>
+        <mainClass>org.isep.tp7.Ex1Application</mainClass>
+        <options>
+            <option>--add-opens</option>
+            <option>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</option>
+            <option>--add-opens</option>
+            <option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
+            <option>--add-opens</option>
+            <option>javafx.base/com.sun.javafx.binding=ALL-UNNAMED</option>
+        </options>
+    </configuration>
+</plugin>
