@@ -5,25 +5,35 @@ import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        var label = new Label("eigenflow task manager");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            Scene scene = new Scene(root);
+            stage.setTitle("Eigenflow Task Manager");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+    
+    /* var label = new Label("eigenflow task manager");
         var root = new VBox(label);
         var scene = new Scene(root, 800, 600);
 
         stage.setTitle("eigenflow");
         stage.setScene(scene);
-        stage.show();
-    }
+        stage.show(); */
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
         Personel personel = new Personel(1, "Jane Smith", "Project Manager", "jane.smith@example.com", "+1234567890");
 
         personel.addProjectToHistory("Project X");
