@@ -1,6 +1,7 @@
 package org.isep.eigenflow.ui;
 
 
+
 import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
 
@@ -12,9 +13,11 @@ import javafx.stage.Stage;
 
 public class MainApplication extends Application {
     @Override
-    public void start(Stage stage) {
+   public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/org/isep/eigenflow/Menu.fxml"));
+
+
             Scene scene = new Scene(root);
             stage.setTitle("Eigenflow Task Manager");
             stage.setScene(scene);
@@ -23,6 +26,10 @@ public class MainApplication extends Application {
            e.printStackTrace();
         }
     }
+
+         
+      
+        
     
     /* var label = new Label("eigenflow task manager");
         var root = new VBox(label);
