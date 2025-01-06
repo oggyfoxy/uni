@@ -1,10 +1,7 @@
 package org.isep.eigenflow;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-
 public class HelloController {
-    @FXML
+   /*@FXML
     private ListView<String> todoList;
     @FXML
     private ListView<String> inProgressList;
@@ -12,7 +9,14 @@ public class HelloController {
     private ListView<String> doneList;
 
     @FXML
+
+    
     private void handleNewTask() {
         todoList.getItems().add("New Task");
+        System.out.println("You selected a new item");
+    }
+    */
+    public void UIPersonel(){
+        System.out.println("Opening Personel...");
     }
 }
