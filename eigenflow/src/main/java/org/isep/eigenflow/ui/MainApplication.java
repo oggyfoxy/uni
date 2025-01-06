@@ -15,7 +15,7 @@ public class MainApplication extends Application {
     @Override
    public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/org/isep/eigenflow/Menu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
 
 
             Scene scene = new Scene(root);
