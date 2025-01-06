@@ -32,7 +32,6 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import com.gluonhq.charm.glisten.control.Icon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -47,7 +46,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.eigenflow.HelloController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.eigenflow.ui.HelloController">
   <children>
     <MenuBar prefWidth="1280.0" VBox.vgrow="NEVER">
       <menus>
@@ -59,9 +58,6 @@
             <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#handleSave" text="Save" />
             <MenuItem fx:id="Quit" mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
           </items>
-               <graphic>
-                  <Icon content="HOME" />
-               </graphic>
         </Menu>
         <Menu mnemonicParsing="false" text="Personel">
           <items>
@@ -69,9 +65,6 @@
             <MenuItem fx:id="TeamManagement" mnemonicParsing="false" onAction="#handleTeamManagement" text="Team Management" />
             <MenuItem fx:id="HistoryAndRoles" mnemonicParsing="false" onAction="#handleHistoryAndRoles" text="History and Roles" />
           </items>
-               <graphic>
-                  <Icon content="PERSON" />
-               </graphic>
         </Menu>
             <Menu mnemonicParsing="false" text="Monitoring">
               <items>
@@ -79,27 +72,20 @@
                   <MenuItem fx:id="CalendarView" mnemonicParsing="false" onAction="#handleCalendarView" text="Calendar View" />
                   <MenuItem fx:id="ProgressCharts" mnemonicParsing="false" onAction="#handleProgressCharts" text="Progress Charts" />
               </items>
-               <graphic>
-                  <Icon content="DATE_RANGE" />
-               </graphic>
             </Menu>
             <Menu mnemonicParsing="false" text="Reports">
               <items>
                 <MenuItem fx:id="Performance" mnemonicParsing="false" onAction="#handlePerformance" text="Performance" />
                   <MenuItem fx:id="BudgetAnalysis" mnemonicParsing="false" onAction="#handleBudgetAnalysis" text="Budget Analysis" />
               </items>
-               <graphic>
-                  <Icon content="FOLDER_SPECIAL" />
-               </graphic>
+
             </Menu>
             <Menu mnemonicParsing="false" text="Tasks">
               <items>
                 <MenuItem fx:id="MyTasks" mnemonicParsing="false" onAction="#handleMyTasks" text="My Tasks" />
                   <MenuItem fx:id="ProjectTasks" mnemonicParsing="false" onAction="#handleProjectTasks" text="Project Tasks" />
               </items>
-               <graphic>
-                  <Icon content="DONE_ALL" />
-               </graphic>
+
             </Menu>
         <Menu mnemonicParsing="false" text="Projects">
           <items>
@@ -107,25 +93,19 @@
                   <MenuItem fx:id="ActiveProject" mnemonicParsing="false" onAction="#handleActiveProjects" text="Active Projects" />
                   <MenuItem fx:id="ArchivedProjects" mnemonicParsing="false" onAction="#handleArchivedProjects" text="Archived Projects" />
           </items>
-               <graphic>
-                  <Icon content="CREATE" />
-               </graphic>
+
         </Menu>
             <Menu mnemonicParsing="false" text="Settings">
               <items>
                 <MenuItem fx:id="Settings" mnemonicParsing="false" onAction="#handleSettings" text="Settings" />
               </items>
-               <graphic>
-                  <Icon content="SETTINGS" />
-               </graphic>
+
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>
                 <MenuItem fx:id="Help" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
               </items>
-               <graphic>
-                  <Icon content="HELP_OUTLINE" />
-               </graphic>
+
             </Menu>
       </menus>
     </MenuBar>

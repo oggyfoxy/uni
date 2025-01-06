@@ -1,7 +1,6 @@
-package org.isep.eigenflow;
+package org.isep.eigenflow.ui;
 
 import javafx.fxml.FXML;
-
 public class HelloController {
     
     @FXML

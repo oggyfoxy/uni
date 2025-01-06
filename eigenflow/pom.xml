@@ -37,6 +37,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-glisten</artifactId>
+            <version>6.2.3</version>
+            <classifier>all</classifier>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,8 +65,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.isep.eigenflow/org.isep.eigenflow.HelloApplication</mainClass>
-                            <launcher>app</launcher>
+                            <mainClass>org.isep.eigenflow/org.isep.eigenflow.ui.MainApplication</mainClass>                            <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>

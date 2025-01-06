@@ -15,10 +15,8 @@ public class MainApplication extends Application {
     @Override
    public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
-
-
-            Scene scene = new Scene(root);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/org/isep/eigenflow/Menu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Eigenflow Task Manager");
             stage.setScene(scene);
             stage.show();
