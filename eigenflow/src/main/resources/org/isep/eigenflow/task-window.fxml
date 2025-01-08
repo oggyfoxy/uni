@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.eigenflow.ui.TaskController"
+      spacing="10" style="-fx-padding: 10;">
+
+    <Label text="Task Management"/>
+
+    <HBox spacing="10">
+        <VBox style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+            <Label text="TO DO"/>
+            <ListView fx:id="todoList"/>
+        </VBox>
+        <VBox style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+            <Label text="Available Members"/>
+            <ListView fx:id="memberList"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <TextField fx:id="taskTitle" promptText="Task Title"/>
+        <TextArea fx:id="taskDescription" promptText="Task Description"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="New Task" onAction="#handleNewTask"/>
+        <Button text="Close" onAction="#handleCloseTaskWindow"/>
+    </HBox>
+
+</VBox>

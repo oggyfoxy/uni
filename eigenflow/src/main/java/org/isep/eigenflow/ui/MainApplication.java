@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class MainApplication extends Application {
     @Override
-   public void start(Stage stage) {
+    public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/org/isep/eigenflow/Menu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -21,7 +21,7 @@ public class MainApplication extends Application {
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -42,7 +42,7 @@ public class MainApplication extends Application {
         Personel personel = new Personel(1, "Jane Smith", "Project Manager", "jane.smith@example.com", "+1234567890");
 
         personel.addProjectToHistory("Project X");
-        
+
         personel.editPersonel("Jane Smith", "Senior Project Manager", "jane.smith@updatedemail.com", "+0987654321");
 
         System.out.println(personel);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.eigenflow.ui.NewProjectController"
+      spacing="10" style="-fx-padding: 10;">
+    <Label text="create a new project"/>
+    <TextField fx:id="projectNameField" promptText="project name"/>
+    <TextField fx:id="deadlineField" promptText="deadline"/>
+    <Button text="create" onAction="#handleCreate"/>
+</VBox>

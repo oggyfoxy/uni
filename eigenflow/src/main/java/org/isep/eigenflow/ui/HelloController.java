@@ -1,42 +1,129 @@
 package org.isep.eigenflow.ui;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.IOException;
 import javafx.fxml.FXML;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Optional;
+
+
 public class HelloController {
-    
+
     @FXML
     private void handleNewTask() {
-        System.out.println("New task added.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/task-window.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Task Management");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleOpen() {
-        System.out.println("Open selected.");
+        // open file chooser to load a file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showOpenDialog(getStage());
+        if (file != null) {
+            System.out.println("File selected: " + file.getAbsolutePath());
+            // add logic to read the file
+        }
     }
 
     @FXML
     private void handleClose() {
-        System.out.println("Close selected.");
+        // close current window
+        Stage stage = getStage();
+        if (stage != null) {
+            stage.close();
+        }
     }
 
     @FXML
     private void handleSave() {
-        System.out.println("Save selected.");
+        // save data to a file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(getStage());
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write("Sample data to save...");
+                System.out.println("Data saved to: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
     private void handleQuit() {
-        System.out.println("Quit application.");
+        // quit the entire application
+        System.out.println("Application is exiting...");
+        System.exit(0);
     }
+
+    // utility method to get the current stage
+    private Stage getStage() {
+        return (Stage) javafx.stage.Window.getWindows()
+                .stream()
+                .filter(window -> window instanceof Stage)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("no active stage found"));
+    }
+
 
     @FXML
     private void handleProfiles() {
-        System.out.println("Opening Profiles...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/profiles.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("profiles window");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleTeamManagement() {
-        System.out.println("Opening Team Management...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/team_management.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("team management");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleHistoryAndRoles() {
@@ -81,8 +168,20 @@ public class HelloController {
 
     @FXML
     private void handleNewProject() {
-        System.out.println("Creating New Project...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/new_project.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("new project form");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleActiveProjects() {
