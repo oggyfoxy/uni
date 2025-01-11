@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.isep.eigenflow.ui.ProfilesController"
-      spacing="10" style="-fx-padding: 10;">
-    <Label text="profiles window"/>
-    <TextField promptText="enter a name"/>
-    <Button text="do something"/>
+      spacing="10">
+    <!-- change this line -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10">
+        <VBox spacing="5" minWidth="200">
+            <Label text="Name:"/>
+            <TextField fx:id="nameField"/>
+
+            <Label text="Position:"/>
+            <TextField fx:id="positionField"/>
+
+            <Label text="Email:"/>
+            <TextField fx:id="emailField"/>
+
+            <Label text="Phone:"/>
+            <TextField fx:id="phoneField"/>
+
+            <Button text="Add Personnel" onAction="#handleAddPersonnel"/>
+        </VBox>
+
+        <TableView fx:id="personnelTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Name"/>
+                <TableColumn fx:id="positionColumn" text="Position"/>
+                <TableColumn fx:id="emailColumn" text="Email"/>
+                <TableColumn fx:id="phoneColumn" text="Phone"/>
+            </columns>
+        </TableView>
+    </HBox>
 </VBox>

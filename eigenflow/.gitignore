@@ -11,6 +11,7 @@ target/
 *.iws
 *.iml
 *.ipr
+.idea/
 
 ### Eclipse ###
 .apt_generated
@@ -36,3 +37,41 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Maven target folder
+/target/
+
+
+
+
+# Windows-specific files
+Thumbs.db
+ehthumbs.db
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqbpro
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Compiled Java class files
+*.class
+
+# Maven wrapper files (optional, if your team wants to use their own wrapper)
+/.mvn/
+mvnw
+mvnw.cmd
+
+# Backup files
+*.bak
+*.swp
+*.swo
+
+# Generated files (if applicable)
+/generated/
+
+# Ignore any other sensitive or large files not needed in the repo
+tasks.txt

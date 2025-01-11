@@ -1,160 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
-  All rights reserved. Use is subject to license terms.
-
-  This file is available and licensed under the following license:
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
-
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the distribution.
-  - Neither the name of Oracle Corporation nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.isep.eigenflow.ui.HelloController">
-    <children>
-        <MenuBar prefWidth="1280.0" VBox.vgrow="NEVER">
-            <menus>
-                <Menu mnemonicParsing="false" text="Dashboard">
-                    <items>
-                        <MenuItem fx:id="New" mnemonicParsing="false" onAction="#handleNewTask" text="New" />
-                        <MenuItem fx:id="Open" mnemonicParsing="false" onAction="#handleOpen" text="Open…" />
-                        <MenuItem fx:id="Close" mnemonicParsing="false" onAction="#handleClose" text="Close" />
-                        <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                        <MenuItem fx:id="Quit" mnemonicParsing="false" onAction="#handleQuit" text="Quit" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Personel">
-                    <items>
-                        <MenuItem fx:id="Profiles" mnemonicParsing="false" onAction="#handleProfiles" text="Profiles" />
-                        <MenuItem fx:id="TeamManagement" mnemonicParsing="false" onAction="#handleTeamManagement" text="Team Management" />
-                        <MenuItem fx:id="HistoryAndRoles" mnemonicParsing="false" onAction="#handleHistoryAndRoles" text="History and Roles" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Monitoring">
-                    <items>
-                        <MenuItem fx:id="KanbanView" mnemonicParsing="false" onAction="#handleKanbanView" text="Kanban View" />
-                        <MenuItem fx:id="CalendarView" mnemonicParsing="false" onAction="#handleCalendarView" text="Calendar View" />
-                        <MenuItem fx:id="ProgressCharts" mnemonicParsing="false" onAction="#handleProgressCharts" text="Progress Charts" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Reports">
-                    <items>
-                        <MenuItem fx:id="Performance" mnemonicParsing="false" onAction="#handlePerformance" text="Performance" />
-                        <MenuItem fx:id="BudgetAnalysis" mnemonicParsing="false" onAction="#handleBudgetAnalysis" text="Budget Analysis" />
-                    </items>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TitledPane?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.isep.eigenflow.ui.HelloController" prefHeight="800.0" prefWidth="1280.0">
 
-                </Menu>
-                <Menu mnemonicParsing="false" text="Tasks">
-                    <items>
-                        <MenuItem fx:id="MyTasks" mnemonicParsing="false" onAction="#handleMyTasks" text="My Tasks" />
-                        <MenuItem fx:id="ProjectTasks" mnemonicParsing="false" onAction="#handleProjectTasks" text="Project Tasks" />
-                    </items>
+    <!-- Menu Bar -->
+    <MenuBar prefWidth="1280.0" VBox.vgrow="NEVER">
+        <menus>
+            <Menu text="Dashboard">
+                <items>
+                    <MenuItem fx:id="New" onAction="#handleNewTask" text="New"/>
+                    <MenuItem fx:id="Open" onAction="#handleOpen" text="Open…"/>
+                    <MenuItem fx:id="Close" onAction="#handleClose" text="Close"/>
+                    <MenuItem fx:id="Save" onAction="#handleSave" text="Save"/>
+                    <MenuItem fx:id="Quit" onAction="#handleQuit" text="Quit"/>
+                </items>
+            </Menu>
+            <Menu text="Personel">
+                <items>
+                    <MenuItem fx:id="Profiles" onAction="#handleProfiles" text="Profiles"/>
+                    <MenuItem fx:id="TeamManagement" onAction="#handleTeamManagement" text="Team Management"/>
+                    <MenuItem fx:id="HistoryAndRoles" onAction="#handleHistoryAndRoles" text="History and Roles"/>
+                </items>
+            </Menu>
+            <Menu text="Monitoring">
+                <items>
+                    <MenuItem fx:id="KanbanView" onAction="#handleKanbanView" text="Kanban View"/>
+                    <MenuItem fx:id="CalendarView" onAction="#handleCalendarView" text="Calendar View"/>
+                    <MenuItem fx:id="ProgressCharts" onAction="#handleProgressCharts" text="Progress Charts"/>
+                </items>
+            </Menu>
+            <Menu text="Reports">
+                <items>
+                    <MenuItem fx:id="Performance" onAction="#handlePerformance" text="Performance"/>
+                    <MenuItem fx:id="BudgetAnalysis" onAction="#handleBudgetAnalysis" text="Budget Analysis"/>
+                </items>
+            </Menu>
+            <Menu text="Tasks">
+                <items>
+                    <MenuItem fx:id="MyTasks" onAction="#handleMyTasks" text="My Tasks"/>
+                    <MenuItem fx:id="ProjectTasks" onAction="#handleProjectTasks" text="Project Tasks"/>
+                </items>
+            </Menu>
+            <Menu text="Projects">
+                <items>
+                    <MenuItem fx:id="NewProject" onAction="#handleNewProject" text="New Project"/>
+                    <MenuItem fx:id="ActiveProject" onAction="#handleActiveProjects" text="Active Projects"/>
+                    <MenuItem fx:id="ArchivedProjects" onAction="#handleArchivedProjects" text="Archived Projects"/>
+                </items>
+            </Menu>
+            <Menu text="Settings">
+                <items>
+                    <MenuItem fx:id="Settings" onAction="#handleSettings" text="Settings"/>
+                </items>
+            </Menu>
+            <Menu text="Help">
+                <items>
+                    <MenuItem fx:id="Help" onAction="#handleHelp" text="Help"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
 
-                </Menu>
-                <Menu mnemonicParsing="false" text="Projects">
-                    <items>
-                        <MenuItem fx:id="NewProject" mnemonicParsing="false" onAction="#handleNewProject" text="New Project" />
-                        <MenuItem fx:id="ActiveProject" mnemonicParsing="false" onAction="#handleActiveProjects" text="Active Projects" />
-                        <MenuItem fx:id="ArchivedProjects" mnemonicParsing="false" onAction="#handleArchivedProjects" text="Archived Projects" />
-                    </items>
+    <!-- Main Content -->
+    <SplitPane dividerPositions="0.25, 0.75" VBox.vgrow="ALWAYS">
+        <!-- Master Section -->
+        <AnchorPane>
+            <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </padding>
+                <Label text="Task Lists" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="todoList" prefHeight="200.0"/>
+                <Label text="In Progress Tasks" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="inProgressList" prefHeight="200.0"/>
+                <Label text="Completed Tasks" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="doneList" prefHeight="200.0"/>
+            </VBox>
+        </AnchorPane>
 
-                </Menu>
-                <Menu mnemonicParsing="false" text="Settings">
-                    <items>
-                        <MenuItem fx:id="Settings" mnemonicParsing="false" onAction="#handleSettings" text="Settings" />
-                    </items>
+        <!-- View Section (Center Panel) -->
+        <AnchorPane>
+            <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </padding>
 
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem fx:id="Help" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-                    </items>
+                <!-- Project List Header -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Projects" style="-fx-font-size: 18; -fx-font-weight: bold"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="New Project" onAction="#handleNewProject"/>
+                </HBox>
 
-                </Menu>
-            </menus>
-        </MenuBar>
-        <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <items>
-                <AnchorPane>
-                    <children>
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false">
-                            <font>
-                                <Font size="18.0" fx:id="x1" />
-                            </font>
-                            <textFill>
-                                <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
-                            </textFill>
-                        </Label>
-                    </children>
-                </AnchorPane>
-                <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
-                    <content>
-                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
-                            <children>
-                                <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="View" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </ScrollPane>
-                <AnchorPane>
-                    <children>
-                        <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-                    </children>
-                </AnchorPane>
-            </items>
-        </SplitPane>
-        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-            <children>
-                <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
-                    <font>
-                        <Font size="11.0" fx:id="x3" />
-                    </font>
-                    <textFill>
-                        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
-                    </textFill>
-                </Label>
-                <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-                <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
-            </children>
+                <!-- Projects Table -->
+                <TableView fx:id="projectsTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="projectNameColumn" text="Project Name" prefWidth="200"/>
+                        <TableColumn fx:id="projectDeadlineColumn" text="Deadline" prefWidth="100"/>
+                        <TableColumn fx:id="projectMembersColumn" text="Team Members" prefWidth="200"/>
+                        <TableColumn fx:id="projectProgressColumn" text="Progress" prefWidth="100"/>
+                        <TableColumn fx:id="projectActionsColumn" text="Actions" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <!-- Selected Project Details -->
+                <TitledPane text="Project Details" expanded="false">
+                    <VBox spacing="10">
+                        <!-- Tasks List -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Tasks" style="-fx-font-weight: bold"/>
+                            <Button text="Add Task" onAction="#handleAddTaskToProject"/>
+                        </HBox>
+
+                        <TableView fx:id="projectTasksTable" prefHeight="200">
+                            <columns>
+                                <TableColumn fx:id="taskTitleColumn" text="Title" prefWidth="200"/>
+                                <TableColumn fx:id="taskAssigneeColumn" text="Assignee" prefWidth="150"/>
+                                <TableColumn fx:id="taskStatusColumn" text="Status" prefWidth="100"/>
+                                <TableColumn fx:id="taskDeadlineColumn" text="Deadline" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+
+                        <!-- Team Members -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Team Members" style="-fx-font-weight: bold"/>
+                            <Button text="Add Member" onAction="#handleAddMemberToProject"/>
+                        </HBox>
+                        <TableView fx:id="projectMembersTable" prefHeight="150">
+                            <columns>
+                                <TableColumn fx:id="memberNameColumn" text="Name" prefWidth="200"/>
+                                <TableColumn fx:id="memberRoleColumn" text="Role" prefWidth="150"/>
+                                <TableColumn fx:id="memberTasksColumn" text="Assigned Tasks" prefWidth="150"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </TitledPane>
+            </VBox>
+        </AnchorPane>
+
+        <!-- Details Section -->
+        <AnchorPane>
+            <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </padding>
+                <Label text="Details" style="-fx-font-weight: bold;"/>
+            </VBox>
+        </AnchorPane>
+    </SplitPane>
+
+    <!-- Status Bar -->
+    <HBox spacing="5.0" VBox.vgrow="NEVER">
+        <padding>
+            <Insets top="3.0" right="3.0" bottom="3.0" left="3.0"/>
+        </padding>
+        <Label text="Status: Ready"/>
+    </HBox>
+
+    <!-- View Section -->
+    <AnchorPane>
+        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding>
-                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
             </padding>
-        </HBox>
-    </children>
+
+            <!-- Top Row: Statistics -->
+            <HBox spacing="20.0">
+                <VBox styleClass="stat-card" maxWidth="200" spacing="5">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Total Tasks" style="-fx-font-weight: bold"/>
+                    <Label fx:id="totalTasksLabel" text="0" style="-fx-font-size: 24px"/>
+                </VBox>
+
+                <VBox styleClass="stat-card" maxWidth="200" spacing="5">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="In Progress" style="-fx-font-weight: bold"/>
+                    <Label fx:id="inProgressLabel" text="0" style="-fx-font-size: 24px"/>
+                </VBox>
+
+                <VBox styleClass="stat-card" maxWidth="200" spacing="5">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Completed" style="-fx-font-weight: bold"/>
+                    <Label fx:id="completedLabel" text="0" style="-fx-font-size: 24px"/>
+                </VBox>
+            </HBox>
+
+            <!-- Middle Row: Charts -->
+            <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                <!-- Task Status Chart -->
+                <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                    <Label text="Task Distribution" style="-fx-font-weight: bold"/>
+                    <PieChart fx:id="taskStatusChart" legendVisible="true"/>
+                </VBox>
+
+                <!-- Project Progress Chart -->
+                <VBox styleClass="chart-card" HBox.hgrow="ALWAYS">
+                    <Label text="Project Progress" style="-fx-font-weight: bold"/>
+                    <BarChart fx:id="projectProgressChart">
+                        <xAxis>
+                            <CategoryAxis label="Projects"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Completion %" upperBound="100"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+
+            <!-- Bottom Row: Recent Activity -->
+            <VBox styleClass="activity-card" VBox.vgrow="ALWAYS" maxHeight="200">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Recent Activity" style="-fx-font-weight: bold"/>
+                <ListView fx:id="activityListView" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </VBox>
+    </AnchorPane>
+
 </VBox>

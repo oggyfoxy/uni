@@ -7,6 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.isep.eigenflow.ui.HelloController">
@@ -31,4 +36,63 @@
         </VBox>
     </HBox>
     <Button text="New Task" onAction="#handleNewTask"/>
+
+    <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+        <!-- Left Panel (Master) -->
+        <left>
+            <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
+                <Label text="Quick Actions" style="-fx-font-weight: bold"/>
+                <Button text="New Task" onAction="#handleNewTask"/>
+                <Button text="New Project" onAction="#handleNewProject"/>
+                <Separator/>
+                <Label text="Recent Projects" style="-fx-font-weight: bold"/>
+                <ListView fx:id="recentProjectsList" prefHeight="200"/>
+            </VBox>
+        </left>
+
+        <!-- Center Panel (View) -->
+        <center>
+            <VBox spacing="20" style="-fx-padding: 20;">
+                <HBox spacing="20">
+                    <!-- Task Status Summary -->
+                    <VBox styleClass="dashboard-card" VBox.vgrow="ALWAYS">
+                        <Label text="Tasks Overview" style="-fx-font-weight: bold"/>
+                        <PieChart fx:id="taskStatusChart"/>
+                    </VBox>
+
+                    <!-- Team Activity -->
+                    <VBox styleClass="dashboard-card">
+                        <Label text="Team Activity" style="-fx-font-weight: bold"/>
+                        <ListView fx:id="recentActivityList" prefHeight="200"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Project Progress -->
+                <VBox styleClass="dashboard-card">
+                    <Label text="Project Progress" style="-fx-font-weight: bold"/>
+                    <BarChart fx:id="projectProgressChart">
+                        <xAxis>
+                            <CategoryAxis label="Projects"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Completion %"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </VBox>
+        </center>
+
+        <!-- Right Panel (Details) -->
+        <right>
+            <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
+                <Label text="Upcoming Deadlines" style="-fx-font-weight: bold"/>
+                <ListView fx:id="deadlinesList" prefHeight="200"/>
+                <Separator/>
+                <Label text="Team Members" style="-fx-font-weight: bold"/>
+                <ListView fx:id="teamMembersList" prefHeight="200"/>
+            </VBox>
+        </right>
+    </BorderPane>
+
 </VBox>
+

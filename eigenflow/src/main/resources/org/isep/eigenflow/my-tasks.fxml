@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.eigenflow.ui.MyTasksController"
+      spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Member Selection at top -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Select Member:"/>
+        <ComboBox fx:id="memberSelector" prefWidth="200"/>
+    </HBox>
+
+    <!-- Tasks Overview -->
+    <TabPane VBox.vgrow="ALWAYS">
+        <Tab text="To Do" closable="false">
+            <ListView fx:id="todoListView"/>
+        </Tab>
+        <Tab text="In Progress" closable="false">
+            <ListView fx:id="inProgressListView"/>
+        </Tab>
+        <Tab text="Done" closable="false">
+            <ListView fx:id="doneListView"/>
+        </Tab>
+    </TabPane>
+
+    <!-- Task Details Section -->
+    <TitledPane text="Task Details" expanded="false">
+        <VBox spacing="5">
+            <Label fx:id="taskTitleLabel" style="-fx-font-weight: bold"/>
+            <Label fx:id="taskDescriptionLabel" wrapText="true"/>
+            <Label fx:id="taskAssigneeLabel"/>
+            <Label fx:id="taskStatusLabel"/>
+        </VBox>
+    </TitledPane>
+</VBox>

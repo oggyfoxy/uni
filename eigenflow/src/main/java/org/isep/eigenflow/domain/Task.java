@@ -1,6 +1,7 @@
 package org.isep.eigenflow.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,15 +10,34 @@ public class Task {
     private String description;
     private boolean completed;
     private UUID uuid;
-    private List<String> assignedMembers;
+    private final List<String> assignedMembers;
+    private String status;
 
+    public static final String STATUS_TODO = "TODO";
+    public static final String STATUS_IN_PROGRESS = "IN_PROGRESS";
+    public static final String STATUS_DONE = "DONE";
+
+    // Constructor for new tasks
     public Task(String title) {
         this.title = title;
         this.completed = false;
+        this.status = STATUS_TODO;
         this.uuid = UUID.randomUUID();
         this.assignedMembers = new ArrayList<>();
     }
 
+    // Constructor for database tasks
+    public Task(String title, String description, String status, String assignedMembers, UUID uuid) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.uuid = uuid;
+        this.assignedMembers = new ArrayList<>();
+        this.completed = false; // Default value, can be updated later
+        setAssignedMembersFromString(assignedMembers); // Parse assigned members from string
+    }
+
+    // Getters and Setters
     public String getTitle() {
         return title;
     }
@@ -46,6 +66,22 @@ public class Task {
         return uuid;
     }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        if (status.equals(STATUS_TODO) || status.equals(STATUS_IN_PROGRESS) || status.equals(STATUS_DONE)) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+    }
+
     public List<String> getAssignedMembers() {
         return assignedMembers;
     }
@@ -60,10 +96,26 @@ public class Task {
         assignedMembers.remove(member);
     }
 
+    // Convert assigned members list to a comma-separated string
+    public String getAssignedMembersAsString() {
+        return String.join(", ", assignedMembers);
+    }
+
+    // Parse a comma-separated string into the assigned members list
+    public void setAssignedMembersFromString(String assignedMembersStr) {
+        if (assignedMembersStr != null && !assignedMembersStr.isEmpty()) {
+            this.assignedMembers.clear();
+            this.assignedMembers.addAll(Arrays.asList(assignedMembersStr.split(", ")));
+        }
+    }
+
+    // For ListView display
     @Override
     public String toString() {
-        return "Task: " + title + "\nDescription: " + description +
-                "\nAssigned Members: " + assignedMembers +
-                "\nStatus: " + (completed ? "Completed" : "Pending");
+        return title + " (" + status + ")";
+    }
+
+    public void setDeadline(String string) {
+
     }
 }
