@@ -10,9 +10,9 @@ public class ProfilesController {
 
     @FXML
     public void initialize() {
-        // this will run once after the fxml is loaded
+       
         System.out.println("profiles window opened.");
     }
 
-    // add any event handlers or logic for the profiles window here
+   
 }
