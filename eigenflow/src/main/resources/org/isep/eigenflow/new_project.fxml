@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.isep.eigenflow.ui.NewProjectController"
-      spacing="10" style="-fx-padding: 10;">
-    <Label text="create a new project"/>
-    <TextField fx:id="projectNameField" promptText="project name"/>
-    <TextField fx:id="deadlineField" promptText="deadline"/>
-    <Button text="create" onAction="#handleCreate"/>
+      spacing="10" prefWidth="600">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Create New Project" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <GridPane vgap="10" hgap="10">
+        <Label text="Project Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="projectNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Deadline:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="deadlinePicker" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Team Members:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <VBox spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1">
+            <ListView fx:id="memberListView" prefHeight="150"/>
+            <HBox spacing="5">
+                <ComboBox fx:id="memberComboBox" promptText="Select member"/>
+                <Button text="Add" onAction="#handleAddMember"/>
+            </HBox>
+        </VBox>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button text="Create Project" onAction="#handleCreateProject" defaultButton="true"/>
+    </HBox>
 </VBox>
