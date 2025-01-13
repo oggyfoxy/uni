@@ -7,11 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="FirstGUI" />
+        <module name="eigenflow" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="airline_management" target="21" />
-      <module name="eigenflow" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

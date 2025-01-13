@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.isep.eigenflow.domain.Task;
-
+import org.isep.eigenflow.domain.Personel;
 import java.io.*;
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public class TaskController {
     private ListView<String> memberList;
 
     private ObservableList<String> todoTasks = FXCollections.observableArrayList();
-    private ObservableList<String> availableMembers = FXCollections.observableArrayList("Alice", "Bob", "Charlie");
+    private ObservableList<String> availableMembers = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -104,3 +104,4 @@ public class TaskController {
         stage.close();
     }
 }
+

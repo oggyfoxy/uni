@@ -3,7 +3,6 @@ package org.isep.eigenflow.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Optional;
 
 
 public class HelloController {
@@ -98,7 +96,7 @@ public class HelloController {
     @FXML
     private void handleProfiles() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/profiles.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/creationPersonnel.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("profiles window");
@@ -111,17 +109,14 @@ public class HelloController {
 
 
     @FXML
-    private void handleTeamManagement() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/team_management.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("team management");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void handleTeamManagement() throws IOException {
+        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/creationPersonnel.fxml"));
+        Scene scene1 = new Scene((Parent)loader1.load(), (double)800.0F, (double)600.0F);
+        Stage stage1 = new Stage();
+        stage1.setTitle("Employees management");
+        stage1.setScene(scene1);
+        stage1.show();
+        System.out.println("Opening Team Management...");
     }
 
 
@@ -201,5 +196,6 @@ public class HelloController {
     @FXML
     private void handleHelp() {
         System.out.println("Opening Help...");
+
     }
 }
