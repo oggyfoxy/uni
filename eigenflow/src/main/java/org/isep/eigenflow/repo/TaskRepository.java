@@ -16,27 +16,26 @@ public class TaskRepository extends BaseRepository {
     }
 
     private void initializeDatabase() {
-        // Tasks table
         String tasksSQL = """
-            CREATE TABLE IF NOT EXISTS tasks (
-                uuid TEXT PRIMARY KEY,
-                title TEXT NOT NULL,
-                description TEXT,
-                status TEXT,
-                assignedMembers TEXT
-            )
-            """;
+        CREATE TABLE IF NOT EXISTS tasks (
+            uuid TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            description TEXT,
+            status TEXT,
+            assignedMembers TEXT,
+            completed BOOLEAN DEFAULT 0
+        )
+        """;
 
-        // Project-Tasks join table
         String projectTasksSQL = """
-            CREATE TABLE IF NOT EXISTS project_tasks (
-                project_id INTEGER,
-                task_uuid TEXT,
-                FOREIGN KEY (project_id) REFERENCES projects(id),
-                FOREIGN KEY (task_uuid) REFERENCES tasks(uuid),
-                PRIMARY KEY (project_id, task_uuid)
-            )
-            """;
+        CREATE TABLE IF NOT EXISTS project_tasks (
+            project_id INTEGER,
+            task_uuid TEXT,
+            FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+            FOREIGN KEY (task_uuid) REFERENCES tasks(uuid) ON DELETE CASCADE,
+            PRIMARY KEY (project_id, task_uuid)
+        )
+        """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
@@ -46,7 +45,6 @@ public class TaskRepository extends BaseRepository {
             e.printStackTrace();
         }
     }
-
 
 
 
@@ -69,7 +67,6 @@ public class TaskRepository extends BaseRepository {
 
     public Task findByUUID(String uuid) {
         String sql = "SELECT * FROM tasks WHERE uuid = ?";
-
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, uuid);
@@ -77,6 +74,7 @@ public class TaskRepository extends BaseRepository {
 
             if (rs.next()) {
                 Task task = new Task(rs.getString("title"));
+                task.setUuid(UUID.fromString(rs.getString("uuid"))); // ADD THIS LINE
                 task.setDescription(rs.getString("description"));
                 task.setAssignedMembersFromString(rs.getString("assignedMembers"));
                 task.setStatus(rs.getString("status"));
@@ -222,10 +220,48 @@ public class TaskRepository extends BaseRepository {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newStatus);
             pstmt.setString(2, taskId.toString());
-            pstmt.executeUpdate();
+            int updatedRows = pstmt.executeUpdate();
+
+            System.out.println("SQL executed: " + sql);
+            System.out.println("With values: status=" + newStatus + ", uuid=" + taskId);
+            System.out.println("Rows updated: " + updatedRows);
+
+            if (updatedRows == 0) {
+                throw new SQLException("Task not found in database: " + taskId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update task status: " + e.getMessage());
+        }
+    }
+
+    public List<Task> getUnassignedTasks() {
+        List<Task> tasks = new ArrayList<>();
+        String sql = """
+        SELECT t.* FROM tasks t 
+        LEFT JOIN project_tasks pt ON t.uuid = pt.task_uuid 
+        WHERE pt.project_id IS NULL
+        """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getString("assignedMembers"),
+                        UUID.fromString(rs.getString("uuid"))
+                );
+                task.setCompleted(rs.getBoolean("completed"));
+                tasks.add(task);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return tasks;
     }
 
 }

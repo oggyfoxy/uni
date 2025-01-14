@@ -16,3 +16,27 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
     -fx-background-radius: 5;
 }
+
+
+.kanban-column {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-min-width: 250;
+}
+
+.kanban-list {
+    -fx-background-insets: 0;
+    -fx-padding: 5;
+}
+
+.kanban-list .list-cell {
+    -fx-background-color: white;
+    -fx-padding: 10;
+    -fx-border-color: #eee;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-margin: 5;
+}

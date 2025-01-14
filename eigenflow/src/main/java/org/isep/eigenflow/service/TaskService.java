@@ -1,23 +1,33 @@
 package org.isep.eigenflow.service;
 
 import org.isep.eigenflow.domain.Task;
+import org.isep.eigenflow.repo.ProjectRepository;
 import org.isep.eigenflow.repo.TaskRepository;
 
-import java.sql.SQLException;
-import java.util.UUID;
+import java.util.List;
 
 public class TaskService {
-    private final TaskRepository repository;
+    private TaskRepository taskRepo;
+    private ProjectRepository projectRepo;
+
 
     public TaskService() {
-        this.repository = new TaskRepository();
+        this.taskRepo = new TaskRepository();
     }
 
-    public void createTask(String title, String description, String member) throws SQLException {
+    public void createTask(String title, String description, String assignee, Integer projectId) {
         Task task = new Task(title);
         task.setDescription(description);
-        task.setUuid(UUID.randomUUID());
-        task.assignMember(member);
-        repository.save(task);
+        task.assignMember(assignee);
+        taskRepo.save(task);
+        if (projectId != null) {
+            taskRepo.addTaskToProject(task.getUuid(), projectId);
+        }
+    }
+
+    public List<Task> getTasksForProject(Integer projectId) {
+        return projectId == null ?
+                taskRepo.getUnassignedTasks() :
+                taskRepo.getTasksByProject(projectId);
     }
 }

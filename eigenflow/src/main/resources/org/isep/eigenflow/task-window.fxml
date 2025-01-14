@@ -54,5 +54,9 @@
             <Button text="New Task" onAction="#handleNewTask"/>
             <Button text="Close" onAction="#handleClose"/>
         </HBox>
+        <HBox spacing="10">
+            <Label text="Project:"/>
+            <ComboBox fx:id="projectSelector" prefWidth="150"/>
+        </HBox>
     </VBox>
 </VBox>

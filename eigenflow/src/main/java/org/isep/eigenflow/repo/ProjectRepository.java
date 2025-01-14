@@ -43,8 +43,6 @@ public class ProjectRepository extends BaseRepository {
             pstmt.setString(3, "ACTIVE");  // default status for new projects
             pstmt.setString(4, String.join(",", project.getMembers()));
             pstmt.executeUpdate();
-            int rows = pstmt.executeUpdate();
-            System.out.println("Rows inserted: " + rows);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to save project", e);
         }

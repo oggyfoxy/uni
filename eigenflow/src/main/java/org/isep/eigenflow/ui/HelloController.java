@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import org.isep.eigenflow.domain.Project;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +74,10 @@ public class HelloController {
     @FXML private Label completedLabel;
     @FXML private ListView<String> activityListView;
 
+    // Drag and drop
+    @FXML private VBox todoColumn;
+    @FXML private VBox inProgressColumn;
+    @FXML private VBox doneColumn;
 
     @FXML
     private ListView<Task> todoList;
@@ -96,6 +102,9 @@ public class HelloController {
     @FXML private TableColumn<Task, String> taskStatusColumn;
     @FXML private TableColumn<Task, String> taskDeadlineColumn;
 
+    private Project currentProject;
+    private Project selectedProject;
+
     // for project members table
     @FXML private TableColumn<TeamMember, String> memberNameColumn;
     @FXML private TableColumn<TeamMember, String> memberRoleColumn;
@@ -111,6 +120,7 @@ public class HelloController {
         loadTasks();
         setupDashboard();
         setupProjectsView();
+        setupProjectTasksTable();
 
         // Set up columns
         projectNameColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
@@ -357,47 +367,58 @@ public class HelloController {
         });
 
 
-        // Update project details when selected
         projectsTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        loadProjectDetails(newSelection);
-                    }
-                });
+                    currentProject = newSelection;
+                    handleProjectSelection(newSelection);
+                }
+        );
     }
 
-    private void loadProjectDetails(Project project) {
-        // Load tasks
+
+    // remove loadProjectDetails() and merge into loadProjectTasks()
+    private void loadProjectTasks(Project project) {
         if (project == null) {
-            System.err.println("Project is null, cannot load details.");
+            projectTasksTable.getItems().clear();
+            projectMembersTable.getItems().clear();
             return;
         }
+
+        // update tasks
         List<Task> tasks = taskRepo.getTasksByProject(project.getId());
         projectTasksTable.setItems(FXCollections.observableArrayList(tasks));
 
-        // Load members
-        List<String> members = project.getMembers();
-        projectMembersTable.setItems(FXCollections.observableArrayList(
-                members.stream()
-                        .map(m -> new TeamMember(m, "Role")) // You'll need to store roles in your Project class
-                        .collect(Collectors.toList())
-        ));
+        // update members
+        List<TeamMember> members = project.getMembers().stream()
+                .map(m -> new TeamMember(m, "Role"))
+                .collect(Collectors.toList());
+        projectMembersTable.setItems(FXCollections.observableArrayList(members));
     }
 
     @FXML
     private void handleAddTaskToProject() {
         Project selectedProject = projectsTableView.getSelectionModel().getSelectedItem();
         if (selectedProject == null) {
-            showAlert("Error", "Please select a project first");
+            showAlert("Error", "Select a project first");
             return;
         }
 
-        // Show task creation dialog
-        Dialog<Task> dialog = new TaskDialog(selectedProject);
-        dialog.showAndWait().ifPresent(task -> {
-            taskRepo.save(task);
-            loadProjectDetails(selectedProject);
-        });
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/add_task.fxml"));
+            Parent root = loader.load();
+
+            AddTaskController controller = loader.getController();
+            controller.setProject(selectedProject);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            loadProjectTasks(selectedProject);
+        } catch (Exception e) {
+            showAlert("Error", "Failed to create task: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -413,7 +434,7 @@ public class HelloController {
         dialog.showAndWait().ifPresent(member -> {
             selectedProject.addMember(member);
             // projectRepo.save(selectedProject);
-            loadProjectDetails(selectedProject);
+            loadProjectTasks(selectedProject);
         });
     }
 
@@ -542,7 +563,19 @@ public class HelloController {
 
     @FXML
     private void handleKanbanView() {
-        System.out.println("Opening Kanban View...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/kanban-view.fxml"));
+            Parent root = loader.load();
+            KanbanController controller = loader.getController();
+            controller.setMainController(this);  // pass reference
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Kanban Board");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -606,6 +639,12 @@ public class HelloController {
         }
     }
 
+    // add this method to track selected project
+    private void handleProjectSelection(Project project) {
+        currentProject = project;
+        loadProjectTasks(project);
+    }
+
 
 
     @FXML
@@ -649,6 +688,7 @@ public class HelloController {
             System.err.println("Cannot delete null project.");
             return;
         }
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Project");
         alert.setHeaderText("Are you sure you want to delete this project?");
@@ -656,31 +696,86 @@ public class HelloController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                projectRepo.deleteProject(project.getId());
-                loadProjectDetails(null);
-                setupProjectsView();
+                try {
+                    projectRepo.deleteProject(project.getId());
+                    refreshProjectsTable();  // use this instead of setupProjectsView
+                    loadProjectTasks(null);
+                } catch (RuntimeException e) {
+                    System.err.println("Failed to delete project: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void setupProjectTasksTable() {
+        taskTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        taskAssigneeColumn.setCellValueFactory(new PropertyValueFactory<>("assignedMembersAsString"));
+        taskStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        taskDeadlineColumn.setCellValueFactory(new PropertyValueFactory<>("deadline"));
+
+        TableColumn<Task, Void> actionCol = new TableColumn<>("Actions");
+        actionCol.setCellFactory(col -> new TableCell<>() {
+            private final Button deleteBtn = new Button("Delete");
+            {
+                deleteBtn.setOnAction(e -> {
+                    Task task = getTableRow().getItem();
+                    if (task != null) {
+                        handleDeleteTask(task);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : deleteBtn);
             }
         });
 
+        projectTasksTable.getColumns().add(actionCol);
     }
+
+
+    private void handleDeleteTask(Task task) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Task");
+        alert.setContentText("Delete this task?");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    taskRepo.deleteTask(task.getUuid().toString());
+                    loadProjectTasks(currentProject);
+                    refreshDashboard();
+                } catch (SQLException e) {
+                    showAlert("Error", "Failed to delete task: " + e.getMessage());
+                }
+            }
+        });
+    }
+
 
     @FXML
     private TableView<Project> projectTable;
 
-    @FXML
-    private void handleDeleteProjectAction() {
-        Project selectedProject = projectTable.getSelectionModel().getSelectedItem();
-        if (selectedProject == null) {
-            System.out.println("Project is null, cannot load details.");
-            return;
-        }
-        handleDeleteProject(selectedProject);
-    }
 
 
-        public void refreshProjectsTable() {
+    public void refreshProjectsTable() {
         List<Project> projects = projectRepo.getAllProjects();
         projectsTableView.setItems(FXCollections.observableArrayList(projects));
+    }
+
+    public void refreshAll() {
+        refreshProjectsTable();
+        loadProjectTasks(currentProject);
+        loadTasks();  // for kanban
+        refreshDashboard();
+    }
+
+    public void refreshDashboardAndGraphs() {
+        updateTaskStatistics();
+        updateTaskStatusChart();
+        updateProjectProgressChart();
     }
 
 

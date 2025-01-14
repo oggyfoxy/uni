@@ -6,9 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.isep.eigenflow.domain.Personel;
+import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.repo.PersonnelRepository;
+import org.isep.eigenflow.repo.ProjectRepository;
 import org.isep.eigenflow.service.TaskService;
 
 import java.io.*;
@@ -34,6 +37,10 @@ public class TaskController {
     private PersonnelRepository personnelRepo = new PersonnelRepository();
     private TaskService taskService;
 
+    @FXML private ComboBox<Project> projectSelector;
+    private Project selectedProject;
+
+    private ProjectRepository projectRepo = new ProjectRepository();
 
     @FXML
     public void initialize() {
@@ -51,7 +58,26 @@ public class TaskController {
         // Set up event handling for filter changes
         statusFilter.setOnAction(event -> handleFilterTasks());
 
+        List<Project> projects = projectRepo.getAllProjects();
+        projectSelector.setItems(FXCollections.observableArrayList(projects));
+        projectSelector.getItems().add(0, null); // option for no project
+        projectSelector.setConverter(new StringConverter<Project>() {
+            @Override
+            public String toString(Project project) {
+                return project == null ? "No Project" : project.getProjectName();
+            }
+
+            @Override
+            public Project fromString(String s) {
+                return null;
+            }
+            // ... implement fromString if needed
+        });
     }
+
+
+
+
 
     private void loadPersonnelFromDatabase() {
         List<Personel> personnel = personnelRepo.getAllPersonnel();
@@ -68,35 +94,42 @@ public class TaskController {
     @FXML
     private void handleNewTask() {
         String title = taskTitle.getText();
-        String description = taskDescription.getText();
-
         if (title.isEmpty()) {
-            showAlert("Validation Error", "Task title cannot be empty.");
+            showAlert("Error", "title required");
             return;
         }
 
-        Optional<String> selectedMember = showMemberSelectionDialog();
-        if (selectedMember.isEmpty()) {
-            showAlert("Member Selection", "No member selected. Task creation canceled.");
-            return;
+        // show dialog asking if task should be added to project
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Task Creation");
+        alert.setHeaderText("Add to Project?");
+        alert.setContentText("Do you want to add this task to a project?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        Integer projectId = null;
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // show project selection dialog
+            ChoiceDialog<Project> projectDialog = new ChoiceDialog<>();
+            projectDialog.getItems().addAll(projectRepo.getAllProjects());
+            projectDialog.setTitle("Select Project");
+            projectDialog.setHeaderText("Choose a project for this task");
+
+            Optional<Project> selectedProject = projectDialog.showAndWait();
+            if (selectedProject.isPresent()) {
+                projectId = selectedProject.get().getId();
+            }
         }
 
         try {
-            Task task = new Task(title);
-            task.setDescription(description);
-            task.setUuid(UUID.randomUUID());
-            taskService.createTask(title, description, selectedMember.get());
-
-            // still save to file for backward compatibility
-            saveTaskToFile(task);
-
-            todoTasks.add(title);
-            clearTaskForm();
-
-            System.out.println("Task created and saved to both database and file");
-        } catch (SQLException e) {
-            showAlert("Database Error", "Could not save task: " + e.getMessage());
-            e.printStackTrace();
+            Optional<String> assignee = showMemberSelectionDialog();
+            if (assignee.isPresent()) {
+                taskService.createTask(title, taskDescription.getText(), assignee.get(), projectId);
+                todoTasks.add(title);
+                clearTaskForm();
+            }
+        } catch (Exception e) {
+            showAlert("Error", e.getMessage());
         }
     }
 

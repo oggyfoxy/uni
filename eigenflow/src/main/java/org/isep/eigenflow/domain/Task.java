@@ -1,5 +1,7 @@
 package org.isep.eigenflow.domain;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +14,8 @@ public class Task {
     private UUID uuid;
     private final List<String> assignedMembers;
     private String status;
+    private Integer projectId;
+    private LocalDate deadline;
 
     public static final String STATUS_TODO = "TODO";
     public static final String STATUS_IN_PROGRESS = "IN_PROGRESS";
@@ -24,6 +28,7 @@ public class Task {
         this.status = STATUS_TODO;
         this.uuid = UUID.randomUUID();
         this.assignedMembers = new ArrayList<>();
+        this.projectId = null;
     }
 
     // Constructor for database tasks
@@ -34,8 +39,14 @@ public class Task {
         this.uuid = uuid;
         this.assignedMembers = new ArrayList<>();
         this.completed = false; // Default value, can be updated later
-        setAssignedMembersFromString(assignedMembers); // Parse assigned members from string
+        setAssignedMembersFromString(assignedMembers);
+        this.projectId = null;                    // Parse assigned members from string
     }
+
+
+    public Integer getProjectId() { return projectId; }
+    public void setProjectId(Integer projectId) { this.projectId = projectId; }
+
 
     // Getters and Setters
     public String getTitle() {
@@ -114,8 +125,11 @@ public class Task {
     public String toString() {
         return title + " (" + status + ")";
     }
+    public LocalDate getDeadline() {
+        return deadline;
+    }
 
-    public void setDeadline(String string) {
-
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 }

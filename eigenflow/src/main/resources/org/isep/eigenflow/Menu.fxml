@@ -90,7 +90,7 @@
                 <padding>
                     <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
                 </padding>
-                <Label text="Task Lists" style="-fx-font-weight: bold;"/>
+                <Label text="TODO Tasks" style="-fx-font-weight: bold;"/>
                 <ListView fx:id="todoList" prefHeight="200.0"/>
                 <Label text="In Progress Tasks" style="-fx-font-weight: bold;"/>
                 <ListView fx:id="inProgressList" prefHeight="200.0"/>

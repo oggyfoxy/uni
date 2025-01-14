@@ -41,6 +41,10 @@ public class NewProjectController {
 
         memberListView.setItems(FXCollections.observableArrayList());
     }
+     // private void handleProjectSelection(Project project) {
+     //       currentProject = project;
+    //       loadProject(project);
+    //  }
 
     @FXML
     private void handleAddMember() {
