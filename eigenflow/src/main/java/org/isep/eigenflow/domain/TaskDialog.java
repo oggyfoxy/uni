@@ -3,6 +3,8 @@ package org.isep.eigenflow.domain;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.time.LocalDate;
+
 public class TaskDialog extends Dialog<Task> {
     public TaskDialog(Project project) {
         setTitle("Add Task to Project");
@@ -29,7 +31,7 @@ public class TaskDialog extends Dialog<Task> {
         setResultConverter(button -> {
             if (button == ButtonType.OK) {
                 Task task = new Task(titleField.getText());
-                task.setDeadline(deadlinePicker.getValue().toString());
+                task.setDeadline(LocalDate.parse(deadlinePicker.getValue().toString()));
                 task.assignMember(assigneeCombo.getValue());
                 return task;
             }

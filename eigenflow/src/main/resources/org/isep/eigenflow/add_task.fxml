@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.eigenflow.ui.AddTaskController"
+      spacing="10">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <TextField fx:id="titleField" promptText="Task Title"/>
+    <TextField fx:id="descriptionField" promptText="Description"/>
+    <ComboBox fx:id="assigneeCombo" promptText="Assignee"/>
+    <DatePicker fx:id="deadlinePicker" promptText="Deadline"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button text="Save" onAction="#handleSave" defaultButton="true"/>
+    </HBox>
+</VBox>

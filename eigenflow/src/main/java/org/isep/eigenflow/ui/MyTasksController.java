@@ -12,6 +12,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import org.isep.eigenflow.domain.Personel;
+import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.repo.PersonnelRepository;
 import org.isep.eigenflow.repo.TaskRepository;
@@ -30,6 +31,9 @@ public class MyTasksController {
     @FXML private Label taskDescriptionLabel;
     @FXML private Label taskAssigneeLabel;
     @FXML private Label taskStatusLabel;
+
+    @FXML private ComboBox<Project> projectSelector;
+    private Project selectedProject;
 
     private final PersonnelRepository personnelRepo = new PersonnelRepository();
     private final TaskRepository taskRepo = new TaskRepository();
