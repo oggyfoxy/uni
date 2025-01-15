@@ -1,45 +1,47 @@
 package org.isep.eigenflow.ui;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.isep.eigenflow.domain.Project;
+import org.isep.eigenflow.domain.Task;
+import org.isep.eigenflow.domain.TeamMember;
+import org.isep.eigenflow.repo.PersonnelRepository;
+import org.isep.eigenflow.repo.ProjectRepository;
+import org.isep.eigenflow.repo.TaskRepository;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.IOException;
-import javafx.fxml.FXML;
-import org.isep.eigenflow.domain.Task;
-import org.isep.eigenflow.domain.TaskDialog;
-import org.isep.eigenflow.domain.TeamMember;
-import org.isep.eigenflow.repo.PersonnelRepository;
-import org.isep.eigenflow.repo.ProjectRepository;
-import org.isep.eigenflow.repo.TaskRepository;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-
-import org.isep.eigenflow.domain.Project;
-
-
-
-import java.io.File;
-import java.io.FileWriter;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class HelloController {
