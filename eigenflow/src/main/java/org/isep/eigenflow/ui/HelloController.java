@@ -4,6 +4,7 @@ package org.isep.eigenflow.ui;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -548,10 +549,7 @@ public class HelloController {
     }
 
 
-    @FXML
-    private void handleHistoryAndRoles() {
-        System.out.println("Opening History and Roles...");
-    }
+    
 
     @FXML
     private void handleKanbanView() {
@@ -611,7 +609,7 @@ public class HelloController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }; 
     @FXML
     private void handleBudgetAnalysis() {
         try {
