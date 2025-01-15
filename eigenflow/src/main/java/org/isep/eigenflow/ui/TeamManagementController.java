@@ -5,10 +5,10 @@ import java.util.List;
 import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.repo.PersonnelRepository;
-import org.isep.eigenflow.repo.ProjectRepository;  // Ensure correct naming
+import org.isep.eigenflow.repo.ProjectRepository;  
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;  // Ensure correct naming
+import javafx.collections.ObservableList;  
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -29,10 +29,10 @@ public class TeamManagementController {
     @FXML
     private ListView<Project> projectHistoryListView;
 
-    private Personel selectedMember;  // Corrected naming
+    private Personel selectedMember;  
 
-    private final PersonnelRepository personnelRepo = new PersonnelRepository();  // Corrected naming
-    private final ProjectRepository projectRepo = new ProjectRepository();  // Assuming ProjectRepository exists
+    private final PersonnelRepository personnelRepo = new PersonnelRepository();  
+    private final ProjectRepository projectRepo = new ProjectRepository();  
 
     @FXML
     public void initialize() {
@@ -40,22 +40,19 @@ public class TeamManagementController {
         setupMemberSelection();
     }
 
-    // Load members from the Personnel repository
     private void loadMembers() {
-        List<Personel> personnel = personnelRepo.getAllPersonnel();  // Corrected naming
+        List<Personel> personnel = personnelRepo.getAllPersonnel(); 
         ObservableList<String> memberNames = FXCollections.observableArrayList();
-        for (Personel p : personnel) {  // Corrected naming
+        for (Personel p : personnel) {  
             memberNames.add(p.getName());
         }
         memberSelector.setItems(memberNames);
     }
 
-    // Setup for member selection when button is clicked
     private void setupMemberSelection() {
         selectMemberButton.setOnAction(event -> handleMemberSelection());
     }
 
-    // Handle the member selection
     private void handleMemberSelection() {
         String selectedMemberName = memberSelector.getValue();
 
@@ -76,21 +73,17 @@ public class TeamManagementController {
         }
     }
 
-    // Handle the "View History" button click
     @FXML
     private void handleViewHistoryClick() {
         String selectedMember = memberSelector.getValue();
 
         if (selectedMember != null) {
 
-            // Fetch archived projects for the selected member
-            List<Project> projects = projectRepo.getArchivedProjects();  // Fetch the projects
+            List<Project> projects = projectRepo.getArchivedProjects();  
 
-            // Display the list of projects in the ListView
             ObservableList<Project> projectList = FXCollections.observableArrayList(projects);
             projectHistoryListView.setItems(projectList);
 
-            // Optionally, open a new window or show the list in a dialog
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Member Project History");
             alert.setHeaderText(selectedMember + "'s Archived Projects");

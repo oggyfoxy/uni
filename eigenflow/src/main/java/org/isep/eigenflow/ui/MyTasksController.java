@@ -71,50 +71,47 @@ public class MyTasksController {
     }
 
     private void setupDragAndDrop(ListView<Task> listView, String targetStatus) {
-        // Enable dragging from the ListView
+        
         listView.setOnDragDetected(event -> {
             Task selectedTask = listView.getSelectionModel().getSelectedItem();
             if (selectedTask != null) {
                 Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent content = new ClipboardContent();
-                content.putString(selectedTask.getUuid().toString()); // Use task UUID to identify it
+                content.putString(selectedTask.getUuid().toString()); 
                 dragboard.setContent(content);
                 event.consume();
             }
         });
 
-        // Accept dragging into the ListView
         listView.setOnDragOver(event -> {
             if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.MOVE);
-                listView.setStyle("-fx-border-color: blue; -fx-border-width: 2px;"); // Highlight
+                listView.setStyle("-fx-border-color: blue; -fx-border-width: 2px;"); 
             }
             event.consume();
         });
 
         listView.setOnDragExited(event -> {
-            listView.setStyle(""); // Remove highlight
+            listView.setStyle(""); 
             event.consume();
         });
 
 
-        // Handle dropping into the ListView
         listView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
 
             if (dragboard.hasString()) {
-                String taskId = dragboard.getString(); // Retrieve the UUID of the task
-                Task task = taskRepo.findByUUID(taskId); // Get the task from the database
+                String taskId = dragboard.getString(); 
+                Task task = taskRepo.findByUUID(taskId); 
                 if (task != null) {
-                    task.setStatus(targetStatus); // Update the task's status
+                    task.setStatus(targetStatus); 
                     try {
-                        taskRepo.updateTask(task); // Save changes to the database
+                        taskRepo.updateTask(task); 
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
 
-                    // Update the ListViews
                     loadTasksForMember(memberSelector.getSelectionModel().getSelectedItem());
                     success = true;
                 }
@@ -127,12 +124,12 @@ public class MyTasksController {
 
 
     private void loadTasksForMember(String memberName) {
-        // Clear existing items
+        
         todoListView.getItems().clear();
         inProgressListView.getItems().clear();
         doneListView.getItems().clear();
 
-        // Load from database
+       
         List<Task> tasks = taskRepo.getTasksByAssignee(memberName);
         for (Task task : tasks) {
             switch (task.getStatus()) {

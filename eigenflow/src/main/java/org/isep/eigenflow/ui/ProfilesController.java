@@ -1,19 +1,14 @@
 package org.isep.eigenflow.ui;
 
 
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import java.io.*;
-
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.repo.PersonnelRepository;
 
-import javafx.scene.control.TableView;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
-
-import java.awt.*;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProfilesController {
     @FXML
@@ -36,7 +31,7 @@ public class ProfilesController {
 
     @FXML
     public void initialize() {
-        // setup table columns
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -66,7 +61,7 @@ public class ProfilesController {
             String phone = phoneField.getText();
 
             int newId = repository.getNextId();
-            System.out.println("Creating personnel with ID: " + newId); // debug
+            System.out.println("Creating personnel with ID: " + newId); 
 
             Personel newPerson = new Personel(newId, name, position, email, phone);
             repository.addPersonnel(newPerson);

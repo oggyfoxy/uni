@@ -31,7 +31,7 @@ public class NewProjectController {
 
     @FXML
     public void initialize() {
-        // Load available members
+        
         List<Personel> personnel = personnelRepo.getAllPersonnel();
         ObservableList<String> memberNames = FXCollections.observableArrayList();
         for (Personel p : personnel) {
@@ -41,10 +41,7 @@ public class NewProjectController {
 
         memberListView.setItems(FXCollections.observableArrayList());
     }
-     // private void handleProjectSelection(Project project) {
-     //       currentProject = project;
-    //       loadProject(project);
-    //  }
+    
 
     @FXML
     private void handleAddMember() {
@@ -66,19 +63,19 @@ public class NewProjectController {
 
         try {
             if (currentProject != null) {
-                // editing existing project
+                
                 currentProject.editProject(name, deadline);
                 currentProject.getMembers().clear();
                 currentProject.getMembers().addAll(memberListView.getItems());
                 projectRepo.updateProject(currentProject);
             } else {
-                // creating new project
+              
                 Project project = new Project(0, name, deadline);
                 memberListView.getItems().forEach(project::addMember);
                 projectRepo.save(project);
             }
 
-            // refresh main window
+            
             Stage stage = (Stage) projectNameField.getScene().getWindow();
             HelloController controller = (HelloController) stage.getUserData();
             if (controller != null) {
@@ -104,14 +101,11 @@ public class NewProjectController {
     public void loadProject(Project project) {
         this.currentProject = project;
 
-        // populate fields with existing data
         projectNameField.setText(project.getProjectName());
         deadlinePicker.setValue(project.getDeadline());
 
-        // load members
         memberListView.setItems(FXCollections.observableArrayList(project.getMembers()));
 
-        // change create button to save if it exists
         Button createButton = (Button) projectNameField.getScene().lookup("#createButton");
         if (createButton != null) {
             createButton.setText("Save Changes");
