@@ -57,25 +57,39 @@ public class NewProjectController {
     @FXML
     private void handleCreateProject() {
         String name = projectNameField.getText();
-        LocalDate deadline = deadlinePicker.getValue(); // Use LocalDate directly
-        ObservableList<String> members = memberListView.getItems();
+        LocalDate deadline = deadlinePicker.getValue();
 
         if (name.isEmpty()) {
             showAlert("Error", "Project name cannot be empty");
             return;
         }
 
-        // Create a new Project using LocalDate for deadline
-        Project project = new Project(0, name, deadline); // id will be set by the database
-        for (String member : members) {
-            project.addMember(member);
-        }
-        projectRepo.save(project);
-        Stage stage = (Stage) projectNameField.getScene().getWindow();
-        HelloController controller = (HelloController) stage.getUserData(); // Pass controller reference when opening the dialog
-        controller.refreshProjectsTable();
+        try {
+            if (currentProject != null) {
+                // editing existing project
+                currentProject.editProject(name, deadline);
+                currentProject.getMembers().clear();
+                currentProject.getMembers().addAll(memberListView.getItems());
+                projectRepo.updateProject(currentProject);
+            } else {
+                // creating new project
+                Project project = new Project(0, name, deadline);
+                memberListView.getItems().forEach(project::addMember);
+                projectRepo.save(project);
+            }
 
-        stage.close();
+            // refresh main window
+            Stage stage = (Stage) projectNameField.getScene().getWindow();
+            HelloController controller = (HelloController) stage.getUserData();
+            if (controller != null) {
+                controller.refreshProjectsTable();
+            }
+
+            stage.close();
+        } catch (Exception e) {
+            showAlert("Error", "Failed to " + (currentProject != null ? "update" : "create") + " project: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 
@@ -89,9 +103,18 @@ public class NewProjectController {
 
     public void loadProject(Project project) {
         this.currentProject = project;
+
+        // populate fields with existing data
         projectNameField.setText(project.getProjectName());
-        if (project.getDeadline() != null) {
-            projectDeadlinePicker.setValue(project.getDeadline()); // No need to parse
+        deadlinePicker.setValue(project.getDeadline());
+
+        // load members
+        memberListView.setItems(FXCollections.observableArrayList(project.getMembers()));
+
+        // change create button to save if it exists
+        Button createButton = (Button) projectNameField.getScene().lookup("#createButton");
+        if (createButton != null) {
+            createButton.setText("Save Changes");
         }
     }
 

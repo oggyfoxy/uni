@@ -42,6 +42,9 @@ public class Project extends BaseRepository {
         progress.set(value);
     }
 
+    public boolean isActive() {
+        return "ACTIVE".equals(status);
+    }
 
     // Getters for functionality
     public int getProjectId() {

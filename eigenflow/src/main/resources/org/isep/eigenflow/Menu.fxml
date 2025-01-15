@@ -68,16 +68,6 @@
                     <MenuItem fx:id="ArchivedProjects" onAction="#handleArchivedProjects" text="Archived Projects"/>
                 </items>
             </Menu>
-            <Menu text="Settings">
-                <items>
-                    <MenuItem fx:id="Settings" onAction="#handleSettings" text="Settings"/>
-                </items>
-            </Menu>
-            <Menu text="Help">
-                <items>
-                    <MenuItem fx:id="Help" onAction="#handleHelp" text="Help"/>
-                </items>
-            </Menu>
         </menus>
     </MenuBar>
 
