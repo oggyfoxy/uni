@@ -1,45 +1,47 @@
 package org.isep.eigenflow.ui;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.isep.eigenflow.domain.Project;
+import org.isep.eigenflow.domain.Task;
+import org.isep.eigenflow.domain.TeamMember;
+import org.isep.eigenflow.repo.PersonnelRepository;
+import org.isep.eigenflow.repo.ProjectRepository;
+import org.isep.eigenflow.repo.TaskRepository;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.IOException;
-import javafx.fxml.FXML;
-import org.isep.eigenflow.domain.Task;
-import org.isep.eigenflow.domain.TaskDialog;
-import org.isep.eigenflow.domain.TeamMember;
-import org.isep.eigenflow.repo.PersonnelRepository;
-import org.isep.eigenflow.repo.ProjectRepository;
-import org.isep.eigenflow.repo.TaskRepository;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-
-import org.isep.eigenflow.domain.Project;
-
-
-
-import java.io.File;
-import java.io.FileWriter;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class HelloController {
@@ -74,7 +76,6 @@ public class HelloController {
     @FXML private Label completedLabel;
     @FXML private ListView<String> activityListView;
 
-    // Drag and drop
     @FXML private VBox todoColumn;
     @FXML private VBox inProgressColumn;
     @FXML private VBox doneColumn;
@@ -96,7 +97,6 @@ public class HelloController {
     @FXML private TableColumn<Project, Double> projectProgressColumn;
     @FXML private TableColumn<Project, Void> projectActionsColumn;
 
-    // for project tasks table
     @FXML private TableColumn<Task, String> taskTitleColumn;
     @FXML private TableColumn<Task, String> taskAssigneeColumn;
     @FXML private TableColumn<Task, String> taskStatusColumn;
@@ -105,7 +105,6 @@ public class HelloController {
     private Project currentProject;
     private Project selectedProject;
 
-    // for project members table
     @FXML private TableColumn<TeamMember, String> memberNameColumn;
     @FXML private TableColumn<TeamMember, String> memberRoleColumn;
     @FXML private TableColumn<TeamMember, String> memberTasksColumn;
@@ -122,16 +121,13 @@ public class HelloController {
         setupProjectsView();
         setupProjectTasksTable();
 
-        // Set up columns
         projectNameColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         projectDeadlineColumn.setCellValueFactory(new PropertyValueFactory<>("deadline"));
         projectMembersColumn.setCellValueFactory(new PropertyValueFactory<>("membersAsString"));
-        projectProgressColumn.setCellValueFactory(new PropertyValueFactory<>("progress")); // Update based on your Project class
+        projectProgressColumn.setCellValueFactory(new PropertyValueFactory<>("progress")); 
 
-        // Initial data load
         refreshProjectsTable();
 
-        // Set custom cell factory for the Actions column
         projectActionsColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
@@ -148,7 +144,7 @@ public class HelloController {
                 });
 
                 HBox buttons = new HBox(10, editButton, deleteButton);
-                buttons.setStyle("-fx-alignment: center;"); // Center-align buttons
+                buttons.setStyle("-fx-alignment: center;"); 
                 setGraphic(buttons);
             }
 
@@ -239,7 +235,7 @@ public class HelloController {
 
     private void setupActivityFeed() {
         ObservableList<String> activities = FXCollections.observableArrayList();
-        // Add recent activities
+        
         activities.addAll(
                 "New task created: UI Design",
                 "Task completed: Database Setup",
@@ -249,7 +245,7 @@ public class HelloController {
         activityListView.setItems(activities);
     }
 
-    // Method to refresh dashboard
+    
     public void refreshDashboard() {
         updateTaskStatistics();
         updateTaskStatusChart();
@@ -282,7 +278,7 @@ public class HelloController {
             }
         });
 
-        // Accept dragging
+        
         listView.setOnDragOver(event -> {
             if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.MOVE);
@@ -290,7 +286,7 @@ public class HelloController {
             event.consume();
         });
 
-        // Handle drop
+        
         listView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
@@ -307,7 +303,7 @@ public class HelloController {
                         throw new RuntimeException(e);
                     }
 
-                    // Reload tasks in the UI
+                    
                     loadTasks();
                     success = true;
                 }
@@ -344,7 +340,7 @@ public class HelloController {
         projectNameColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         projectDeadlineColumn.setCellValueFactory(new PropertyValueFactory<>("deadline"));
 
-        // Add action buttons to each project row
+     
         projectActionsColumn.setCellFactory(col -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
@@ -376,7 +372,7 @@ public class HelloController {
     }
 
 
-    // remove loadProjectDetails() and merge into loadProjectTasks()
+   
     private void loadProjectTasks(Project project) {
         if (project == null) {
             projectTasksTable.getItems().clear();
@@ -384,11 +380,9 @@ public class HelloController {
             return;
         }
 
-        // update tasks
         List<Task> tasks = taskRepo.getTasksByProject(project.getId());
         projectTasksTable.setItems(FXCollections.observableArrayList(tasks));
 
-        // update members
         List<TeamMember> members = project.getMembers().stream()
                 .map(m -> new TeamMember(m, "Role"))
                 .collect(Collectors.toList());
@@ -429,11 +423,10 @@ public class HelloController {
             return;
         }
 
-        // Show member selection dialog
         Dialog<String> dialog = new MemberSelectionDialog(personnelRepo.getAllPersonnel());
         dialog.showAndWait().ifPresent(member -> {
             selectedProject.addMember(member);
-            // projectRepo.save(selectedProject);
+           
             loadProjectTasks(selectedProject);
         });
     }
@@ -466,7 +459,7 @@ public class HelloController {
 
     @FXML
     private void handleOpen() {
-        // open file chooser to load a file
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
         fileChooser.getExtensionFilters().add(
@@ -476,13 +469,13 @@ public class HelloController {
         File file = fileChooser.showOpenDialog(getStage());
         if (file != null) {
             System.out.println("File selected: " + file.getAbsolutePath());
-            // add logic to read the file
+            
         }
     }
 
     @FXML
     private void handleClose() {
-        // close current window
+
         Stage stage = getStage();
         if (stage != null) {
             stage.close();
@@ -491,7 +484,7 @@ public class HelloController {
 
     @FXML
     private void handleSave() {
-        // save data to a file
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
         fileChooser.getExtensionFilters().add(
@@ -511,12 +504,11 @@ public class HelloController {
 
     @FXML
     private void handleQuit() {
-        // quit the entire application
+
         System.out.println("Application is exiting...");
         System.exit(0);
     }
 
-    // utility method to get the current stage
     private Stage getStage() {
         return (Stage) javafx.stage.Window.getWindows()
                 .stream()
@@ -567,7 +559,7 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/kanban-view.fxml"));
             Parent root = loader.load();
             KanbanController controller = loader.getController();
-            controller.setMainController(this);  // pass reference
+            controller.setMainController(this);  
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -588,12 +580,11 @@ public class HelloController {
             Scene scene = new Scene(root);
             stage.setTitle("Calendar View");
             stage.setScene(scene);
-            stage.setMinWidth(800);  // give it decent size
+            stage.setMinWidth(800);  
             stage.setMinHeight(600);
 
-            // get controller and set up callback if needed
+           
             CalendarController controller = loader.getController();
-            // controller.setMainController(this);  // if you want updates to reflect in main window
 
             stage.show();
         } catch (IOException e) {
@@ -660,14 +651,12 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/new_project.fxml"));
             Parent root = loader.load();
 
-            // Get the controller for the new project dialog
             NewProjectController controller = loader.getController();
 
             Stage stage = new Stage();
             stage.setTitle("New Project");
             stage.setScene(new Scene(root));
 
-            // Pass HelloController reference to NewProjectController
             stage.setUserData(this);
 
             stage.show();
@@ -676,7 +665,6 @@ public class HelloController {
         }
     }
 
-    // add this method to track selected project
     private void handleProjectSelection(Project project) {
         currentProject = project;
         loadProjectTasks(project);
@@ -702,7 +690,7 @@ public class HelloController {
             ProjectsViewController controller = loader.getController();
             controller.setProjects(projects);
             controller.setTitle(title);
-            controller.setMainController(this);  // pass reference to main controller
+            controller.setMainController(this);  
 
             Stage stage = new Stage();
             stage.setTitle(title);
@@ -718,7 +706,7 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/new_project.fxml"));
             Parent root = loader.load();
             NewProjectController controller = loader.getController();
-            controller.loadProject(project);  // you'll need to create this method
+            controller.loadProject(project);  
 
             Stage stage = new Stage();
             stage.setTitle("Edit Project");
@@ -744,7 +732,7 @@ public class HelloController {
             if (response == ButtonType.OK) {
                 try {
                     projectRepo.deleteProject(project.getId());
-                    refreshProjectsTable();  // use this instead of setupProjectsView
+                    refreshProjectsTable();  
                     loadProjectTasks(null);
                 } catch (RuntimeException e) {
                     System.err.println("Failed to delete project: " + e.getMessage());
@@ -814,7 +802,7 @@ public class HelloController {
     public void refreshAll() {
         refreshProjectsTable();
         loadProjectTasks(currentProject);
-        loadTasks();  // for kanban
+        loadTasks(); 
         refreshDashboard();
     }
 

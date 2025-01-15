@@ -84,9 +84,9 @@ public class BudgetController {
         });
 
         dialog.showAndWait().ifPresent(expense -> {
-            selected.addExpense(expense); // Add the full Expense object
-            projectRepo.updateProject(selected); // Save to repository
-            loadExpenses(selected); // Refresh the table
+            selected.addExpense(expense); 
+            projectRepo.updateProject(selected); 
+            loadExpenses(selected); 
         });
 
 
@@ -96,21 +96,19 @@ public class BudgetController {
         Project selected = projectSelector.getValue();
         if (selected == null) return;
 
-        // update labels
         totalBudgetLabel.setText(String.format("$%.2f", selected.getBudget()));
         spentLabel.setText(String.format("$%.2f", selected.getSpentBudget()));
         remainingLabel.setText(String.format("$%.2f", selected.getRemainingBudget()));
 
-        // update progress bar
         double progress = selected.getSpentBudget() / selected.getBudget();
         budgetProgress.setProgress(progress);
         budgetProgress.setStyle(progress > 0.9 ? "-fx-accent: red;" : "-fx-accent: green;");
 
-        // reload expenses table and chart
+        
         loadExpenses(selected);
     }
 
-    // in BudgetController
+   
     private void setupProjectSelector() {
         projectSelector.setItems(FXCollections.observableArrayList(projectRepo.getAllProjects()));
         projectSelector.setConverter(new StringConverter<>() {
@@ -128,7 +126,7 @@ public class BudgetController {
     }
 
     private void setupExpensesTable() {
-        // Initialize table columns
+       
         expensesTable.getColumns().get(0).setCellValueFactory(
                 new PropertyValueFactory<>("date")
         );
@@ -147,7 +145,7 @@ public class BudgetController {
         expensesTable.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("amount"));
         expensesTable.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("category"));
 
-        // Format amount column to show currency
+        
         TableColumn<Expense, Double> amountCol = (TableColumn<Expense, Double>) expensesTable.getColumns().get(2);
         amountCol.setCellFactory(tc -> new TableCell<>() {
             @Override
@@ -166,10 +164,10 @@ public class BudgetController {
     private void loadExpenses(Project project) {
         List<Expense> expenses = projectRepo.getExpensesForProject(project.getId());
         expensesTable.setItems(FXCollections.observableArrayList(expenses));
-        expensesTable.refresh(); // Add this line
+        expensesTable.refresh(); 
 
 
-        // Update pie chart
+       
         Map<String, Double> expensesByCategory = expenses.stream()
                 .collect(Collectors.groupingBy(
                         Expense::category,

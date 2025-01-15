@@ -59,11 +59,11 @@ public class PerformanceController {
     }
 
     private void setupChartsStyle() {
-        // modern look
+        
         taskCompletionChart.setStyle("-fx-font-family: 'SF Pro Display', Arial;");
         memberPerformanceChart.setStyle("-fx-font-family: 'SF Pro Display', Arial;");
 
-        // nice animations
+      
         taskCompletionChart.setAnimated(true);
         memberPerformanceChart.setAnimated(true);
     }
@@ -96,12 +96,11 @@ public class PerformanceController {
 
         taskCompletionChart.setData(pieChartData);
 
-        // Set colors and add hover effects
-        pieChartData.get(0).getNode().setStyle("-fx-pie-color: #ff9f1c;"); // warm orange for todo
-        pieChartData.get(1).getNode().setStyle("-fx-pie-color: #2ec4b6;"); // teal for in progress
-        pieChartData.get(2).getNode().setStyle("-fx-pie-color: #1b998b;"); // green for done
+        
+        pieChartData.get(0).getNode().setStyle("-fx-pie-color: #ff9f1c;"); 
+        pieChartData.get(1).getNode().setStyle("-fx-pie-color: #2ec4b6;"); 
+        pieChartData.get(2).getNode().setStyle("-fx-pie-color: #1b998b;"); 
 
-        // Add tooltips with percentages
         double total = tasks.size();
         pieChartData.forEach(data -> {
             String percentage = String.format("%.1f%%", (data.getPieValue() / total) * 100);
@@ -111,7 +110,7 @@ public class PerformanceController {
     }
 
     private void updateMemberPerformanceChart(List<Task> tasks) {
-        // Group completed tasks by member
+       
         Map<String, Long> memberCompletions = tasks.stream()
                 .filter(t -> t.getStatus().equals(Task.STATUS_DONE))
                 .flatMap(t -> t.getAssignedMembers().stream())
@@ -120,7 +119,7 @@ public class PerformanceController {
                         Collectors.counting()
                 ));
 
-        // Create series for the bar chart
+       
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Completed Tasks");
 
@@ -131,7 +130,6 @@ public class PerformanceController {
         memberPerformanceChart.getData().clear();
         memberPerformanceChart.getData().add(series);
 
-        // Add hover effects and tooltips to bars
         series.getData().forEach(data -> {
             Node node = data.getNode();
             Tooltip tooltip = new Tooltip(
@@ -139,7 +137,7 @@ public class PerformanceController {
             );
             Tooltip.install(node, tooltip);
 
-            // hover effect
+           
             node.setOnMouseEntered(e ->
                     node.setStyle("-fx-bar-fill: derive(-fx-bar-fill, 20%);")
             );

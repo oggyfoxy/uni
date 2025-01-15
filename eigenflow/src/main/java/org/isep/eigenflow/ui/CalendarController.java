@@ -43,7 +43,7 @@ public class CalendarController {
     }
 
     private void setupCalendarGrid() {
-        // Add day labels
+     
         String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for (int i = 0; i < 7; i++) {
             Label dayLabel = new Label(days[i]);
@@ -57,18 +57,18 @@ public class CalendarController {
         LocalDate date = monthPicker.getValue();
         if (project == null || date == null) return;
 
-        // Clear existing calendar cells except headers
+        
         calendarGrid.getChildren().removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) > 0);
 
-        // Get first day of month and total days
+        
         LocalDate firstDay = date.withDayOfMonth(1);
         int dayOfWeek = firstDay.getDayOfWeek().getValue() - 1;
         int daysInMonth = date.lengthOfMonth();
 
-        // Get tasks for this project
+      
         List<Task> tasks = taskRepo.getTasksByProject(project.getId());
 
-        // Fill calendar
+        
         int day = 1;
         for (int week = 1; week <= 6; week++) {
             for (int dow = 0; dow < 7; dow++) {
@@ -91,29 +91,29 @@ public class CalendarController {
 
         LocalDate cellDate = monthPicker.getValue().withDayOfMonth(day);
 
-        // Base cell style
+       
         String cellStyle = "-fx-background-color: white; -fx-border-color: #dee2e6;";
 
-        // If it's a project deadline day
+        
         Project selectedProject = projectSelector.getValue();
         if (selectedProject != null && selectedProject.getDeadline().equals(cellDate)) {
-            cellStyle = "-fx-background-color: #ffe8e8; -fx-border-color: #ff9999;";  // light red for deadline
+            cellStyle = "-fx-background-color: #ffe8e8; -fx-border-color: #ff9999;"; 
         }
 
         cell.setStyle(cellStyle);
 
-        // Day number
+      
         Label dayLabel = new Label(String.valueOf(day));
         dayLabel.setStyle(cellDate.equals(LocalDate.now()) ?
                 "-fx-font-weight: bold; -fx-text-fill: #0d6efd;" :
                 "-fx-font-weight: bold;");
         cell.getChildren().add(dayLabel);
 
-        // Tasks due on this day
+       
         tasks.stream()
                 .filter(t -> t.getDeadline() != null && t.getDeadline().equals(cellDate))
                 .forEach(task -> {
-                    // Task indicator with project context
+
                     VBox taskBox = new VBox(2);
                     taskBox.setStyle(getTaskStyle(task.getStatus()));
                     taskBox.setPadding(new Insets(3, 5, 3, 5));
@@ -121,7 +121,6 @@ public class CalendarController {
                     Label titleLabel = new Label(task.getTitle());
                     titleLabel.setWrapText(true);
 
-                    // add tooltip with full info
                     Tooltip tooltip = new Tooltip(
                             "Task: " + task.getTitle() + "\n" +
                                     "Status: " + task.getStatus() + "\n" +
@@ -131,7 +130,6 @@ public class CalendarController {
 
                     taskBox.getChildren().add(titleLabel);
 
-                    // make tasks interactive
                     taskBox.setOnMouseEntered(e -> {
                         taskBox.setStyle(taskBox.getStyle() + "; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0, 0, 0);");
                         titleLabel.setStyle("-fx-font-weight: bold;");
@@ -144,7 +142,6 @@ public class CalendarController {
                     cell.getChildren().add(taskBox);
                 });
 
-        // if it's a project deadline day, add indicator
         if (selectedProject != null && selectedProject.getDeadline().equals(cellDate)) {
             Label deadlineLabel = new Label("PROJECT DEADLINE");
             deadlineLabel.setStyle("-fx-text-fill: #dc3545; -fx-font-size: 10px; -fx-font-weight: bold;");
