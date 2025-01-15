@@ -825,4 +825,32 @@ public class HelloController {
     }
 
 
+    @FXML
+    private Button darkModeButton;
+
+    private boolean isDarkMode = false;
+
+    @FXML
+    private void toggleDarkMode() {
+        Scene scene = darkModeButton.getScene();
+        if (scene == null) {
+            System.err.println("Scene not found");
+            return;
+        }
+
+        String cssPath = isDarkMode ? "/org/isep/eigenflow/light-mode.css" : "/org/isep/eigenflow/dark-mode.css";
+        URL cssUrl = getClass().getResource(cssPath);
+
+        if (cssUrl == null) {
+            System.err.println("Could not find stylesheet: " + cssPath);
+            return;
+        }
+
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(cssUrl.toExternalForm());
+        darkModeButton.setText(isDarkMode ? "🌙" : "☀️");
+        isDarkMode = !isDarkMode;
+    }
+
+
 }

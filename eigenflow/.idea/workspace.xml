@@ -13,8 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -67,7 +67,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.24804688",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -132,6 +132,7 @@
       <workItem from="1736765051530" duration="1971000" />
       <workItem from="1736883234732" duration="7074000" />
       <workItem from="1736932727451" duration="4506000" />
+      <workItem from="1736972062726" duration="1297000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
