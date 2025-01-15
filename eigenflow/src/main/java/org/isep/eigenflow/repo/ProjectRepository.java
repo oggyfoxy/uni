@@ -2,10 +2,12 @@ package org.isep.eigenflow.repo;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.isep.eigenflow.domain.Project;
+import org.isep.eigenflow.domain.Expense;
 
 public class ProjectRepository extends BaseRepository {
     private static final String DB_URL = "jdbc:sqlite:eigenflow.db";
@@ -25,6 +27,21 @@ public class ProjectRepository extends BaseRepository {
                         "tasks TEXT," +
                         "status TEXT DEFAULT 'ACTIVE'" +
                         ")",
+
+                // add expenses table
+                """
+                CREATE TABLE IF NOT EXISTS expenses (
+                    id INTEGER PRIMARY KEY,
+                    project_id INTEGER,
+                    description TEXT,
+                    amount REAL,
+                    category TEXT,
+                    date TEXT,
+                    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+                )
+                """,
+
+
 
                 // add status column if not exists (will fail silently if column exists)
                 "ALTER TABLE projects ADD COLUMN status TEXT DEFAULT 'ACTIVE'",
@@ -258,6 +275,47 @@ public class ProjectRepository extends BaseRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to update project status: " + e.getMessage());
+        }
+    }
+
+    public List<Expense> getExpensesForProject(int projectId) {
+        List<Expense> expenses = new ArrayList<>();
+        String sql = "SELECT * FROM expenses WHERE project_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Expense expense = new Expense(
+                        rs.getString("description"),
+                        rs.getDouble("amount"),
+                        rs.getString("category"),
+                        LocalDate.parse(rs.getString("date"), DateTimeFormatter.ISO_DATE)
+                );
+                expenses.add(expense);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return expenses;
+    }
+
+
+    public void addExpense(int projectId, Expense expense) {
+        String sql = "INSERT INTO expenses (project_id, description, amount, category, date) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, projectId);
+            pstmt.setString(2, expense.description());
+            pstmt.setDouble(3, expense.amount());
+            pstmt.setString(4, expense.category());
+            pstmt.setString(5, expense.date().toString());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
