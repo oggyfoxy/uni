@@ -31,7 +31,6 @@ public class KanbanController {
         setupProjectSelector();
         setupDragAndDrop();
 
-        // debug initial state
         System.out.println("Initializing KanbanController");
         System.out.println("Available projects: " + projectRepo.getAllProjects());
     }
@@ -46,7 +45,6 @@ public class KanbanController {
         var projects = projectRepo.getAllProjects();
         projectSelector.setItems(FXCollections.observableArrayList(projects));
 
-        // setup display format
         projectSelector.setCellFactory(p -> new ListCell<Project>() {
             @Override
             protected void updateItem(Project item, boolean empty) {
@@ -56,7 +54,6 @@ public class KanbanController {
         });
         projectSelector.setButtonCell(projectSelector.getCellFactory().call(null));
 
-        // handle selection
         projectSelector.getSelectionModel().selectedItemProperty().addListener((obs, old, project) -> {
             if (project != null) {
                 setProject(project);
@@ -69,12 +66,10 @@ public class KanbanController {
 
         System.out.println("Loading tasks for project: " + currentProject.getProjectName());
 
-        // clear existing
         todoList.getItems().clear();
         inProgressList.getItems().clear();
         doneList.getItems().clear();
 
-        // load new tasks
         var tasks = taskRepo.getTasksByProject(currentProject.getId());
         for (Task task : tasks) {
             System.out.println("Found task: " + task.getTitle() + " [" + task.getUuid() + "] Status: " + task.getStatus());
@@ -114,19 +109,16 @@ public class KanbanController {
         });
 
         list.setOnDragDropped(e -> {
-            Dragboard db = e.getDragboard(); // Get the dragboard from the event
-            boolean success = false; // Initialize the success flag
-
+            Dragboard db = e.getDragboard(); 
+            boolean success = false; 
             if (db.hasString()) {
                 String uuid = db.getString();
                 try {
-                    // Update the task status in the repository
+
                     taskRepo.updateTaskStatus(UUID.fromString(uuid), targetStatus);
 
-                    // Reload the tasks in the Kanban board
                     loadTasks();
 
-                    // Refresh the dashboard and graphs, if applicable
                     if (mainController != null) {
                         mainController.refreshDashboardAndGraphs();
                     }
@@ -137,8 +129,8 @@ public class KanbanController {
                 }
             }
 
-            e.setDropCompleted(success); // Notify the system about the result of the drop
-            e.consume(); // Mark the event as consumed
+            e.setDropCompleted(success); 
+            e.consume(); 
         });
 
     }

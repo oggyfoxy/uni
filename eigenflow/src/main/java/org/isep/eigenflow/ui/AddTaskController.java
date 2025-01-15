@@ -20,7 +20,7 @@ public class AddTaskController {
 
     public void setProject(Project project) {
         this.project = project;
-        // populate assignee combo with project members
+        
         assigneeCombo.getItems().addAll(project.getMembers());
     }
 

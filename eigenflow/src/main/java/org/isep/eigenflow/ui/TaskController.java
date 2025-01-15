@@ -49,18 +49,18 @@ public class TaskController {
         todoList.setItems(todoTasks);
         memberList.setItems(availableMembers);
         statusFilter.setOnAction(event -> handleFilterTasks());
-        // Populate the status filter options
+        
         statusFilter.setItems(FXCollections.observableArrayList("TODO", "IN_PROGRESS", "COMPLETED"));
 
-        // Set default selection
+        
         statusFilter.getSelectionModel().selectFirst();
 
-        // Set up event handling for filter changes
+       
         statusFilter.setOnAction(event -> handleFilterTasks());
 
         List<Project> projects = projectRepo.getAllProjects();
         projectSelector.setItems(FXCollections.observableArrayList(projects));
-        projectSelector.getItems().add(0, null); // option for no project
+        projectSelector.getItems().add(0, null); 
         projectSelector.setConverter(new StringConverter<Project>() {
             @Override
             public String toString(Project project) {
@@ -71,7 +71,7 @@ public class TaskController {
             public Project fromString(String s) {
                 return null;
             }
-            // ... implement fromString if needed
+          
         });
     }
 
@@ -86,7 +86,7 @@ public class TaskController {
             availableMembers.add(p.getName());
         }
         if (availableMembers.isEmpty()) {
-            // fallback to default members if db is empty
+           
             availableMembers.addAll("Alice", "Bob", "Charlie");
         }
     }
@@ -99,7 +99,6 @@ public class TaskController {
             return;
         }
 
-        // show dialog asking if task should be added to project
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Task Creation");
         alert.setHeaderText("Add to Project?");
@@ -109,7 +108,7 @@ public class TaskController {
         Integer projectId = null;
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // show project selection dialog
+
             ChoiceDialog<Project> projectDialog = new ChoiceDialog<>();
             projectDialog.getItems().addAll(projectRepo.getAllProjects());
             projectDialog.setTitle("Select Project");
@@ -133,7 +132,6 @@ public class TaskController {
         }
     }
 
-    // your existing methods
     private Optional<String> showMemberSelectionDialog() {
         ChoiceDialog<String> dialog = new ChoiceDialog<>(availableMembers.get(0), availableMembers);
         dialog.setTitle("Assign Member");
@@ -181,9 +179,9 @@ public class TaskController {
             showAlert("No Task Selected", "Please select a task to complete.");
             return;
         }
-        // Mark the task as completed in the database or list
+
         System.out.println("Task completed: " + selectedTask);
-        // Refresh the list after updating the task's status
+
     }
 
     @FXML
@@ -193,7 +191,7 @@ public class TaskController {
             showAlert("No Task Selected", "Please select a task to delete.");
             return;
         }
-        // Delete the task from the database or list
+
         System.out.println("Task deleted: " + selectedTask);
         todoTasks.remove(selectedTask);
     }
@@ -202,9 +200,9 @@ public class TaskController {
     private void handleFilterTasks() {
         String status = statusFilter.getValue();
         if (status == null) {
-            return; // No filter applied
+            return; 
         }
-        // Apply the filter and refresh the todoList with tasks of the selected status
+        
         System.out.println("Filtering tasks by status: " + status);
     }
 
