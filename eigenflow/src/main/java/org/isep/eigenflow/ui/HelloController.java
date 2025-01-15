@@ -320,7 +320,7 @@ public class HelloController {
     /**
      * Loads tasks into their respective ListViews based on their status.
      */
-    private void loadTasks() {
+    void loadTasks() {
         ObservableList<Task> todoTasks = FXCollections.observableArrayList();
         ObservableList<Task> inProgressTasks = FXCollections.observableArrayList();
         ObservableList<Task> doneTasks = FXCollections.observableArrayList();
@@ -580,7 +580,26 @@ public class HelloController {
 
     @FXML
     private void handleCalendarView() {
-        System.out.println("Opening Calendar View...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/calendar-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setTitle("Calendar View");
+            stage.setScene(scene);
+            stage.setMinWidth(800);  // give it decent size
+            stage.setMinHeight(600);
+
+            // get controller and set up callback if needed
+            CalendarController controller = loader.getController();
+            // controller.setMainController(this);  // if you want updates to reflect in main window
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading calendar view: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -649,22 +668,31 @@ public class HelloController {
 
     @FXML
     private void handleActiveProjects() {
-        System.out.println("Opening Active Projects...");
+        showProjectsView("Active Projects", projectRepo.getActiveProjects());
     }
 
     @FXML
     private void handleArchivedProjects() {
-        System.out.println("Opening Archived Projects...");
+        showProjectsView("Archived Projects", projectRepo.getArchivedProjects());
     }
 
-    @FXML
-    private void handleSettings() {
-        System.out.println("Opening Settings...");
-    }
+    private void showProjectsView(String title, List<Project> projects) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/projects-view.fxml"));
+            Parent root = loader.load();
 
-    @FXML
-    private void handleHelp() {
-        System.out.println("Opening Help...");
+            ProjectsViewController controller = loader.getController();
+            controller.setProjects(projects);
+            controller.setTitle(title);
+            controller.setMainController(this);  // pass reference to main controller
+
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleEditProject(Project project) {

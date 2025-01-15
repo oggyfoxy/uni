@@ -1,6 +1,7 @@
 package org.isep.eigenflow.repo;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -256,6 +257,34 @@ public class TaskRepository extends BaseRepository {
                         UUID.fromString(rs.getString("uuid"))
                 );
                 task.setCompleted(rs.getBoolean("completed"));
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    public List<Task> getTasksWithDeadlines(int projectId) {
+        List<Task> tasks = new ArrayList<>();
+        String sql = """
+        SELECT t.*, pt.project_id 
+        FROM tasks t 
+        JOIN project_tasks pt ON t.uuid = pt.task_uuid 
+        WHERE pt.project_id = ? AND t.deadline IS NOT NULL
+        """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Task task = new Task(rs.getString("title"));
+                task.setDescription(rs.getString("description"));
+                task.setUuid(UUID.fromString(rs.getString("uuid")));
+                task.setStatus(rs.getString("status"));
+                task.setDeadline(LocalDate.parse(rs.getString("deadline")));
                 tasks.add(task);
             }
         } catch (SQLException e) {

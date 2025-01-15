@@ -40,3 +40,18 @@
     -fx-background-radius: 3;
     -fx-margin: 5;
 }
+
+
+.calendar-cell {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1;
+    -fx-min-height: 100;
+    -fx-min-width: 120;
+}
+
+.task-label {
+    -fx-background-color: #e9ecef;
+    -fx-padding: 2 5 2 5;
+    -fx-background-radius: 3;
+}
