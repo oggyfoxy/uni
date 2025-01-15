@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.isep.eigenflow.ui.BudgetController"
+      spacing="10">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Budget Analysis" style="-fx-font-size: 24;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="projectSelector" promptText="Select Project"/>
+        <Button text="Add Expense" onAction="#handleAddExpense"/>
+    </HBox>
+
+    <!-- Budget Overview -->
+    <GridPane hgap="20.0" vgap="10.0" styleClass="budget-stats">
+        <Label text="Initial Budget:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="totalBudgetLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Spent:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label fx:id="spentLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Remaining:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="remainingLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <ProgressBar fx:id="budgetProgress" GridPane.columnSpan="2" GridPane.rowIndex="3"
+                     prefWidth="200" styleClass="budget-progress"/>
+    </GridPane>
+
+    <!-- Expense Breakdown -->
+    <TableView fx:id="expensesTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="dateColumn" text="Date"/>
+            <TableColumn fx:id="descriptionColumn" text="Description"/>
+            <TableColumn fx:id="amountColumn" text="Amount"/>
+            <TableColumn fx:id="categoryColumn" text="Category"/>
+        </columns>
+    </TableView>
+
+    <PieChart fx:id="expensesPieChart" VBox.vgrow="ALWAYS"/>
+</VBox>

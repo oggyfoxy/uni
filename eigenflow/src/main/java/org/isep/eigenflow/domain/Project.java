@@ -17,7 +17,11 @@ public class Project extends BaseRepository {
     private LocalDate deadline; // Use LocalDate instead of String
     private ArrayList<String> members;
     private ArrayList<String> tasks;
-    private String status; // Add status field
+    private String status;
+    private double budget;
+    private double spentBudget;
+    private List<Expense> expenses = new ArrayList<>();
+
 
     public Project(int projectId, String projectName, LocalDate deadline) {
         this.projectId = projectId;
@@ -27,6 +31,17 @@ public class Project extends BaseRepository {
         this.tasks = new ArrayList<>();
         this.status = "ACTIVE"; // Default status
     }
+
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void addExpense(Expense expense) {
+        this.expenses.add(expense);
+        this.spentBudget += expense.amount(); // Update spentBudget
+    }
+
 
     private final DoubleProperty progress = new SimpleDoubleProperty(0.0);
 
@@ -128,6 +143,16 @@ public class Project extends BaseRepository {
 
     public int getId() {
         return projectId;
+    }
+
+    public double getBudget() { return budget; }
+    public void setBudget(double budget) { this.budget = budget; }
+    public double getSpentBudget() { return spentBudget; }
+    public void addExpense(double amount) {
+        this.spentBudget += amount;
+    }
+    public double getRemainingBudget() {
+        return budget - spentBudget;
     }
 
     public List<Task> getTasksByProject(int projectId) {

@@ -612,13 +612,31 @@ public class HelloController {
 
     @FXML
     private void handlePerformance() {
-        System.out.println("Opening Performance Report...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/performance-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Performance Report");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
     @FXML
     private void handleBudgetAnalysis() {
-        System.out.println("Opening Budget Analysis Report...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/budget-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Performance Report");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleMyTasks() {
