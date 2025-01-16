@@ -9,8 +9,7 @@ import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.repo.PersonnelRepository;
 import org.isep.eigenflow.repo.ProjectRepository;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+
 import java.time.LocalDate;
 
 
@@ -24,7 +23,6 @@ public class NewProjectController {
 
     @FXML
     private Project currentProject;
-    private DatePicker projectDeadlinePicker;
 
     private ProjectRepository projectRepo = new ProjectRepository();
     private PersonnelRepository personnelRepo = new PersonnelRepository();

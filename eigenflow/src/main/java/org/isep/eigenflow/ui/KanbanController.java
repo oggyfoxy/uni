@@ -8,8 +8,8 @@ import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.repo.TaskRepository;
 import org.isep.eigenflow.repo.ProjectRepository;
-
 import java.util.UUID;
+
 
 public class KanbanController {
     @FXML private ComboBox<Project> projectSelector;

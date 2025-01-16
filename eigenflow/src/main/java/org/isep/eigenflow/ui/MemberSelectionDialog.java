@@ -5,7 +5,6 @@ import javafx.scene.control.ChoiceDialog;
 import org.isep.eigenflow.domain.Personel;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MemberSelectionDialog extends ChoiceDialog<String> {
 
@@ -16,7 +15,4 @@ public class MemberSelectionDialog extends ChoiceDialog<String> {
         setContentText("Available members:");
     }
 
-    public Optional<String> showDialog() {
-        return this.showAndWait();
-    }
 }

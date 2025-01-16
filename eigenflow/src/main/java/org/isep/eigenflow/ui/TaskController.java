@@ -4,21 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
-import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.repo.PersonnelRepository;
 import org.isep.eigenflow.repo.ProjectRepository;
 import org.isep.eigenflow.service.TaskService;
 
-import java.io.*;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class TaskController {
     @FXML
@@ -38,7 +33,6 @@ public class TaskController {
     private TaskService taskService;
 
     @FXML private ComboBox<Project> projectSelector;
-    private Project selectedProject;
 
     private ProjectRepository projectRepo = new ProjectRepository();
 
@@ -138,18 +132,6 @@ public class TaskController {
         dialog.setHeaderText("Assign a member to the task");
         dialog.setContentText("Choose a member:");
         return dialog.showAndWait();
-    }
-
-    private void saveTaskToFile(Task task) {
-        File file = new File("tasks.txt");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(task.toString());
-            writer.newLine();
-            System.out.println("Task saved to file: " + task.getTitle());
-        } catch (IOException e) {
-            showAlert("Save Error", "Could not save the task to file.");
-            e.printStackTrace();
-        }
     }
 
     private void clearTaskForm() {

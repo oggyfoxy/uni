@@ -1,14 +1,10 @@
 package org.isep.eigenflow.service;
 
 import org.isep.eigenflow.domain.Task;
-import org.isep.eigenflow.repo.ProjectRepository;
 import org.isep.eigenflow.repo.TaskRepository;
-
-import java.util.List;
 
 public class TaskService {
     private TaskRepository taskRepo;
-    private ProjectRepository projectRepo;
 
 
     public TaskService() {
@@ -25,9 +21,4 @@ public class TaskService {
         }
     }
 
-    public List<Task> getTasksForProject(Integer projectId) {
-        return projectId == null ?
-                taskRepo.getUnassignedTasks() :
-                taskRepo.getTasksByProject(projectId);
-    }
 }

@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.isep.eigenflow.domain.Personel;
-import org.isep.eigenflow.domain.Task;
 
-// PersonnelRepository.java
 public class PersonnelRepository {
     private static final String DB_URL = "jdbc:sqlite:eigenflow.db";
 
 
-    private List<Personel> personnelList = new ArrayList<>();
     private int currentId = 1;
 
     public int getNextId() {

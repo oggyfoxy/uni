@@ -45,7 +45,6 @@
                 <items>
                     <MenuItem fx:id="KanbanView" onAction="#handleKanbanView" text="Kanban View"/>
                     <MenuItem fx:id="CalendarView" onAction="#handleCalendarView" text="Calendar View"/>
-                    <MenuItem fx:id="ProgressCharts" onAction="#handleProgressCharts" text="Progress Charts"/>
                 </items>
             </Menu>
             <Menu text="Reports">
@@ -57,7 +56,6 @@
             <Menu text="Tasks">
                 <items>
                     <MenuItem fx:id="MyTasks" onAction="#handleMyTasks" text="My Tasks"/>
-                    <MenuItem fx:id="ProjectTasks" onAction="#handleProjectTasks" text="Project Tasks"/>
                 </items>
             </Menu>
             <Menu text="Projects">

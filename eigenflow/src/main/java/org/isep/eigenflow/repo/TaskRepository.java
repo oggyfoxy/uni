@@ -1,7 +1,6 @@
 package org.isep.eigenflow.repo;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +74,7 @@ public class TaskRepository extends BaseRepository {
 
             if (rs.next()) {
                 Task task = new Task(rs.getString("title"));
-                task.setUuid(UUID.fromString(rs.getString("uuid"))); // ADD THIS LINE
+                task.setUuid(UUID.fromString(rs.getString("uuid")));
                 task.setDescription(rs.getString("description"));
                 task.setAssignedMembersFromString(rs.getString("assignedMembers"));
                 task.setStatus(rs.getString("status"));
@@ -119,7 +118,6 @@ public class TaskRepository extends BaseRepository {
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            // use LIKE with wildcards to match member in comma-separated list
             pstmt.setString(1, "%" + memberName + "%");
 
             ResultSet rs = pstmt.executeQuery();
@@ -234,63 +232,6 @@ public class TaskRepository extends BaseRepository {
             e.printStackTrace();
             throw new RuntimeException("Failed to update task status: " + e.getMessage());
         }
-    }
-
-    public List<Task> getUnassignedTasks() {
-        List<Task> tasks = new ArrayList<>();
-        String sql = """
-        SELECT t.* FROM tasks t 
-        LEFT JOIN project_tasks pt ON t.uuid = pt.task_uuid 
-        WHERE pt.project_id IS NULL
-        """;
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getString("assignedMembers"),
-                        UUID.fromString(rs.getString("uuid"))
-                );
-                task.setCompleted(rs.getBoolean("completed"));
-                tasks.add(task);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }
-
-    public List<Task> getTasksWithDeadlines(int projectId) {
-        List<Task> tasks = new ArrayList<>();
-        String sql = """
-        SELECT t.*, pt.project_id 
-        FROM tasks t 
-        JOIN project_tasks pt ON t.uuid = pt.task_uuid 
-        WHERE pt.project_id = ? AND t.deadline IS NOT NULL
-        """;
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, projectId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Task task = new Task(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setUuid(UUID.fromString(rs.getString("uuid")));
-                task.setStatus(rs.getString("status"));
-                task.setDeadline(LocalDate.parse(rs.getString("deadline")));
-                tasks.add(task);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
     }
 
 }

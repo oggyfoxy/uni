@@ -1,11 +1,13 @@
 package org.isep.eigenflow.ui;
 
 import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Stage;  // add this import
+import javafx.stage.Stage;
+
+
+
 
 public class MainApplication extends Application {
     @Override
@@ -13,7 +15,6 @@ public class MainApplication extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/org/isep/eigenflow/Menu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-
             String cssPath = "/org/isep/eigenflow/light-mode.css";
             URL cssUrl = (URL) MainApplication.class.getResource(cssPath);  
             if (cssUrl == null) {
@@ -21,10 +22,11 @@ public class MainApplication extends Application {
             } else {
                 scene.getStylesheets().add(cssUrl.toExternalForm());
             }
-
             stage.setTitle("Eigenflow Task Manager");
             stage.setScene(scene);
             stage.show();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,4 +35,6 @@ public class MainApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }

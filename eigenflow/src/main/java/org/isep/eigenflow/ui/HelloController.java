@@ -40,7 +40,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -54,19 +53,14 @@ public class HelloController {
     public MenuItem Quit;
     public MenuItem Profiles;
     public MenuItem TeamManagement;
-    public MenuItem HistoryAndRoles;
     public MenuItem KanbanView;
     public MenuItem CalendarView;
-    public MenuItem ProgressCharts;
     public MenuItem Performance;
     public MenuItem BudgetAnalysis;
     public MenuItem MyTasks;
-    public MenuItem ProjectTasks;
     public MenuItem NewProject;
     public MenuItem ActiveProject;
     public MenuItem ArchivedProjects;
-    public MenuItem Settings;
-    public MenuItem Help;
 
 
 
@@ -76,10 +70,6 @@ public class HelloController {
     @FXML private Label inProgressLabel;
     @FXML private Label completedLabel;
     @FXML private ListView<String> activityListView;
-
-    @FXML private VBox todoColumn;
-    @FXML private VBox inProgressColumn;
-    @FXML private VBox doneColumn;
 
     @FXML
     private ListView<Task> todoList;
@@ -104,15 +94,12 @@ public class HelloController {
     @FXML private TableColumn<Task, String> taskDeadlineColumn;
 
     private Project currentProject;
-    private Project selectedProject;
-
-    @FXML private TableColumn<TeamMember, String> memberNameColumn;
-    @FXML private TableColumn<TeamMember, String> memberRoleColumn;
-    @FXML private TableColumn<TeamMember, String> memberTasksColumn;
 
     private final TaskRepository taskRepo = new TaskRepository();
     private final ProjectRepository projectRepo = new ProjectRepository();
     private final PersonnelRepository personnelRepo = new PersonnelRepository();
+
+
 
     @FXML
     private void initialize() {
@@ -252,20 +239,12 @@ public class HelloController {
         updateTaskStatusChart();
         updateProjectProgressChart();
     }
-
-
-    /**
-     * Handles drag-and-drop functionality for tasks.
-     */
     private void setupTaskViews() {
         setupDragAndDrop(todoList, Task.STATUS_TODO);
         setupDragAndDrop(inProgressList, Task.STATUS_IN_PROGRESS);
         setupDragAndDrop(doneList, Task.STATUS_DONE);
     }
 
-    /**
-     * Sets up drag-and-drop for the given ListView.
-     */
     private void setupDragAndDrop(ListView<Task> listView, String targetStatus) {
         // Enable dragging
         listView.setOnDragDetected(event -> {
@@ -314,9 +293,7 @@ public class HelloController {
         });
     }
 
-    /**
-     * Loads tasks into their respective ListViews based on their status.
-     */
+
     void loadTasks() {
         ObservableList<Task> todoTasks = FXCollections.observableArrayList();
         ObservableList<Task> inProgressTasks = FXCollections.observableArrayList();
@@ -385,7 +362,7 @@ public class HelloController {
         projectTasksTable.setItems(FXCollections.observableArrayList(tasks));
 
         List<TeamMember> members = project.getMembers().stream()
-                .map(m -> new TeamMember(m, "Role"))
+                .map(m -> new TeamMember(m))
                 .collect(Collectors.toList());
         projectMembersTable.setItems(FXCollections.observableArrayList(members));
     }
@@ -581,8 +558,8 @@ public class HelloController {
             stage.setMinWidth(800);  
             stage.setMinHeight(600);
 
-           
-            CalendarController controller = loader.getController();
+
+            loader.getController();
 
             stage.show();
         } catch (IOException e) {
@@ -642,7 +619,7 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/isep/eigenflow/new_project.fxml"));
             Parent root = loader.load();
 
-            NewProjectController controller = loader.getController();
+            loader.getController();
 
             Stage stage = new Stage();
             stage.setTitle("New Project");
@@ -778,11 +755,6 @@ public class HelloController {
             }
         });
     }
-
-
-    @FXML
-    private TableView<Project> projectTable;
-
 
 
     public void refreshProjectsTable() {
