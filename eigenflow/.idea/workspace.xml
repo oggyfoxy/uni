@@ -133,6 +133,7 @@
       <workItem from="1736883234732" duration="7074000" />
       <workItem from="1736932727451" duration="4506000" />
       <workItem from="1736972062726" duration="1297000" />
+      <workItem from="1737064036114" duration="1279000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
@@ -161,7 +162,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/isep/eigenflow/ui/BudgetController.java</url>
-          <line>165</line>
+          <line>163</line>
           <properties class="org.isep.eigenflow.ui.BudgetController" method="loadExpenses">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

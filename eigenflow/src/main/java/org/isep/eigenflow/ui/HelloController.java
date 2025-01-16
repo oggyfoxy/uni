@@ -4,6 +4,7 @@ package org.isep.eigenflow.ui;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -593,10 +594,6 @@ public class HelloController {
         }
     }
 
-    @FXML
-    private void handleProgressCharts() {
-        System.out.println("Opening Progress Charts...");
-    }
 
 
     @FXML
@@ -641,10 +638,7 @@ public class HelloController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void handleProjectTasks() {
-        System.out.println("Opening Project Tasks...");
-    }
+
     @FXML
     private void handleNewProject() {
         try {
@@ -797,13 +791,6 @@ public class HelloController {
     public void refreshProjectsTable() {
         List<Project> projects = projectRepo.getAllProjects();
         projectsTableView.setItems(FXCollections.observableArrayList(projects));
-    }
-
-    public void refreshAll() {
-        refreshProjectsTable();
-        loadProjectTasks(currentProject);
-        loadTasks(); 
-        refreshDashboard();
     }
 
     public void refreshDashboardAndGraphs() {
