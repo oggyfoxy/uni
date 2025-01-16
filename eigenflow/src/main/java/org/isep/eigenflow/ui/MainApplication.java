@@ -1,10 +1,11 @@
 package org.isep.eigenflow.ui;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.net.URL;  // add this import
+import javafx.stage.Stage;  // add this import
 
 public class MainApplication extends Application {
     @Override
@@ -13,9 +14,8 @@ public class MainApplication extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/org/isep/eigenflow/Menu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
-            // load initial stylesheet
             String cssPath = "/org/isep/eigenflow/light-mode.css";
-            URL cssUrl = (URL) MainApplication.class.getResource(cssPath);  // explicit cast
+            URL cssUrl = (URL) MainApplication.class.getResource(cssPath);  
             if (cssUrl == null) {
                 System.err.println("Could not find stylesheet: " + cssPath);
             } else {

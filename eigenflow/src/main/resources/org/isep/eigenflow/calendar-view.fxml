@@ -19,8 +19,7 @@
         <DatePicker fx:id="monthPicker"/>
     </HBox>
 
-    <!-- Calendar Grid -->
     <GridPane fx:id="calendarGrid" hgap="5" vgap="5" VBox.vgrow="ALWAYS">
-        <!-- Will be populated dynamically -->
+        
     </GridPane>
 </VBox>

@@ -549,10 +549,7 @@ public class HelloController {
     }
 
 
-    @FXML
-    private void handleHistoryAndRoles() {
-        System.out.println("Opening History and Roles...");
-    }
+    
 
     @FXML
     private void handleKanbanView() {
@@ -608,7 +605,7 @@ public class HelloController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }; 
     @FXML
     private void handleBudgetAnalysis() {
         try {

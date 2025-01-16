@@ -20,7 +20,6 @@
         <Button text="Add Expense" onAction="#handleAddExpense"/>
     </HBox>
 
-    <!-- Budget Overview -->
     <GridPane hgap="20.0" vgap="10.0" styleClass="budget-stats">
         <Label text="Initial Budget:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <Label fx:id="totalBudgetLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
@@ -35,7 +34,6 @@
                      prefWidth="200" styleClass="budget-progress"/>
     </GridPane>
 
-    <!-- Expense Breakdown -->
     <TableView fx:id="expensesTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="dateColumn" text="Date"/>

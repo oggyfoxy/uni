@@ -13,7 +13,6 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <!-- Task Filter and Status -->
     <HBox spacing="10">
         <Label text="Filter by Status:"/>
         <ComboBox fx:id="statusFilter" prefWidth="150">
@@ -28,7 +27,7 @@
     </HBox>
 
     <HBox spacing="20">
-        <!-- Left side - Tasks -->
+     
         <VBox spacing="10">
             <Label text="TO DO"/>
             <ListView fx:id="todoList" prefWidth="300" prefHeight="400"/>
@@ -38,14 +37,12 @@
             </HBox>
         </VBox>
 
-        <!-- Right side - Available Members -->
         <VBox spacing="10">
             <Label text="Available Members"/>
             <ListView fx:id="memberList" prefWidth="200" prefHeight="400"/>
         </VBox>
     </HBox>
 
-    <!-- Task Creation Form -->
     <VBox spacing="10">
         <Label text="Create a New Task"/>
         <TextField fx:id="taskTitle" promptText="Task Title"/>

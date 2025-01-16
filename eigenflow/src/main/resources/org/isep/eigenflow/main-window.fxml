@@ -38,7 +38,7 @@
     <Button text="New Task" onAction="#handleNewTask"/>
 
     <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-        <!-- Left Panel (Master) -->
+      
         <left>
             <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
                 <Label text="Quick Actions" style="-fx-font-weight: bold"/>
@@ -50,24 +50,24 @@
             </VBox>
         </left>
 
-        <!-- Center Panel (View) -->
+        
         <center>
             <VBox spacing="20" style="-fx-padding: 20;">
                 <HBox spacing="20">
-                    <!-- Task Status Summary -->
+                    
                     <VBox styleClass="dashboard-card" VBox.vgrow="ALWAYS">
                         <Label text="Tasks Overview" style="-fx-font-weight: bold"/>
                         <PieChart fx:id="taskStatusChart"/>
                     </VBox>
 
-                    <!-- Team Activity -->
+                  
                     <VBox styleClass="dashboard-card">
                         <Label text="Team Activity" style="-fx-font-weight: bold"/>
                         <ListView fx:id="recentActivityList" prefHeight="200"/>
                     </VBox>
                 </HBox>
 
-                <!-- Project Progress -->
+            
                 <VBox styleClass="dashboard-card">
                     <Label text="Project Progress" style="-fx-font-weight: bold"/>
                     <BarChart fx:id="projectProgressChart">
@@ -82,7 +82,7 @@
             </VBox>
         </center>
 
-        <!-- Right Panel (Details) -->
+       
         <right>
             <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
                 <Label text="Upcoming Deadlines" style="-fx-font-weight: bold"/>
