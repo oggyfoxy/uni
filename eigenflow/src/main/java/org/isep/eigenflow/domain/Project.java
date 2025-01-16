@@ -1,5 +1,7 @@
 package org.isep.eigenflow.domain;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import org.isep.eigenflow.repo.BaseRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +18,10 @@ public class Project extends BaseRepository {
     private double spentBudget;
     private List<Expense> expenses = new ArrayList<>();
 
+    private DoubleProperty progress = new SimpleDoubleProperty();
+    public double getProgress() { return progress.get(); }
+    public DoubleProperty progressProperty() { return progress; }
+    public void setProgress(double value) { progress.set(value); }
 
     public Project(int projectId, String projectName, LocalDate deadline) {
         this.projectId = projectId;
