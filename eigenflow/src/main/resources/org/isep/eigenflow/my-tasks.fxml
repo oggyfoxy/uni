@@ -12,13 +12,11 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <!-- Member Selection at top -->
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Select Member:"/>
         <ComboBox fx:id="memberSelector" prefWidth="200"/>
     </HBox>
 
-    <!-- Tasks Overview -->
     <TabPane VBox.vgrow="ALWAYS">
         <Tab text="To Do" closable="false">
             <ListView fx:id="todoListView"/>
@@ -31,7 +29,6 @@
         </Tab>
     </TabPane>
 
-    <!-- Task Details Section -->
     <TitledPane text="Task Details" expanded="false">
         <VBox spacing="5">
             <Label fx:id="taskTitleLabel" style="-fx-font-weight: bold"/>

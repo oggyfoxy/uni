@@ -12,14 +12,14 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <!-- Header -->
+    
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Project Tasks" style="-fx-font-size: 18; -fx-font-weight: bold"/>
         <Region HBox.hgrow="ALWAYS"/>
         <ComboBox fx:id="projectSelector" promptText="Select Project"/>
     </HBox>
 
-    <!-- Kanban Board -->
+    
     <HBox spacing="20" VBox.vgrow="ALWAYS">
         <VBox fx:id="todoColumn" styleClass="kanban-column" HBox.hgrow="ALWAYS">
             <Label text="TODO" style="-fx-font-weight: bold"/>
