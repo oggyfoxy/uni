@@ -9,18 +9,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.domain.Task;
-import org.isep.eigenflow.repo.PersonnelRepository;
 import org.isep.eigenflow.repo.ProjectRepository;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import org.isep.eigenflow.repo.TaskRepository;
-
-import java.time.LocalDate;
 
 
 import java.util.List;

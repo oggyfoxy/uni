@@ -41,7 +41,6 @@ public class ProjectsViewController {
         try {
             projectRepo.archiveProject(project.getId());
 
-            // refresh both views
             projectTable.getItems().remove(project);
             if (mainController != null) {
                 mainController.refreshProjectsTable();

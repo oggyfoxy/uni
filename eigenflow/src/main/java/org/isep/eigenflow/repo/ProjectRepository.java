@@ -4,7 +4,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.isep.eigenflow.domain.Project;
 import org.isep.eigenflow.domain.Expense;
@@ -18,7 +17,6 @@ public class ProjectRepository extends BaseRepository {
 
     private void initializeDatabase() {
         String[] sqlStatements = {
-                // existing table creation
                 "CREATE TABLE IF NOT EXISTS projects (" +
                         "id INTEGER PRIMARY KEY," +
                         "name TEXT NOT NULL," +
@@ -28,7 +26,6 @@ public class ProjectRepository extends BaseRepository {
                         "status TEXT DEFAULT 'ACTIVE'" +
                         ")",
 
-                // add expenses table
                 """
                 CREATE TABLE IF NOT EXISTS expenses (
                     id INTEGER PRIMARY KEY,
@@ -43,10 +40,8 @@ public class ProjectRepository extends BaseRepository {
 
 
 
-                // add status column if not exists (will fail silently if column exists)
                 "ALTER TABLE projects ADD COLUMN status TEXT DEFAULT 'ACTIVE'",
 
-                // update null statuses
                 "UPDATE projects SET status = 'ACTIVE' WHERE status IS NULL"
         };
 
@@ -56,7 +51,7 @@ public class ProjectRepository extends BaseRepository {
                 try {
                     stmt.execute(sql);
                 } catch (SQLException e) {
-                    // ignore column already exists error
+
                     if (!e.getMessage().contains("duplicate column name")) {
                         throw e;
                     }
@@ -97,7 +92,7 @@ public class ProjectRepository extends BaseRepository {
                         rs.getString("name"),
                         deadline
                 );
-                // Split members string into list
+
                 String members = rs.getString("members");
                 if (members != null && !members.isEmpty()) {
                     for (String member : members.split(",")) {
@@ -145,7 +140,6 @@ public class ProjectRepository extends BaseRepository {
         }
     }
 
-    // in ProjectRepository.java
 
     public List<Project> getActiveProjects() {
         List<Project> projects = new ArrayList<>();
@@ -162,7 +156,6 @@ public class ProjectRepository extends BaseRepository {
                         LocalDate.parse(rs.getString("deadline"))
                 );
 
-                // load members from comma-separated string
                 String membersStr = rs.getString("members");
                 if (membersStr != null && !membersStr.isEmpty()) {
                     for (String member : membersStr.split(",")) {
@@ -179,7 +172,6 @@ public class ProjectRepository extends BaseRepository {
     }
 
     public List<Project> getArchivedProjects() {
-        // same code but with WHERE status = 'ARCHIVED'
         List<Project> projects = new ArrayList<>();
         String sql = "SELECT * FROM projects WHERE status = 'ARCHIVED'";
 
@@ -194,7 +186,7 @@ public class ProjectRepository extends BaseRepository {
                         LocalDate.parse(rs.getString("deadline"))
                 );
 
-                // load members
+
                 String membersStr = rs.getString("members");
                 if (membersStr != null && !membersStr.isEmpty()) {
                     for (String member : membersStr.split(",")) {
@@ -211,31 +203,6 @@ public class ProjectRepository extends BaseRepository {
         return projects;
     }
 
-    private List<Project> getAllProjectsByStatus(String status) {
-        List<Project> projects = new ArrayList<>();
-        String sql = "SELECT * FROM projects WHERE status = ?";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, status);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Project project = new Project(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        LocalDate.parse(rs.getString("deadline"))
-                );
-                project.setStatus(rs.getString("status"));
-                // set other fields...
-                projects.add(project);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return projects;
-    }
-    
     public void updateProject(Project project) {
         String sql = """
         UPDATE projects 
@@ -300,23 +267,6 @@ public class ProjectRepository extends BaseRepository {
             e.printStackTrace();
         }
         return expenses;
-    }
-
-
-    public void addExpense(int projectId, Expense expense) {
-        String sql = "INSERT INTO expenses (project_id, description, amount, category, date) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, projectId);
-            pstmt.setString(2, expense.description());
-            pstmt.setDouble(3, expense.amount());
-            pstmt.setString(4, expense.category());
-            pstmt.setString(5, expense.date().toString());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 

@@ -10,7 +10,6 @@ import javafx.util.StringConverter;
 import org.isep.eigenflow.domain.Project;
 
 import org.isep.eigenflow.repo.ProjectRepository;
-import javafx.scene.control.TextField;
 import org.isep.eigenflow.domain.Expense;
 
 import java.time.LocalDate;
@@ -47,7 +46,7 @@ public class BudgetController {
         dialog.setTitle("Add Expense");
         dialog.setHeaderText("Enter expense details");
 
-        // dialog content
+
         GridPane grid = new GridPane();
         TextField descriptionField = new TextField();
         TextField amountField = new TextField();

@@ -8,7 +8,6 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.isep.eigenflow.ui.ProfilesController"
       spacing="10">
-    <!-- change this line -->
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>

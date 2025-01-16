@@ -1,14 +1,12 @@
-/* Base theme */
+
 .root {
     -fx-background-color: #1e1e1e;
     -fx-text-fill: #ffffff;
 }
 
-
 .label {
     -fx-text-fill: #ffffff;
 }
-
 
 .table-view {
     -fx-background-color: #2d2d2d;
@@ -18,13 +16,11 @@
 .table-view .column-header-background {
     -fx-background-color: #383838;
 }
-
 .table-view .column-header {
     -fx-background-color: #383838;
     -fx-border-color: #484848;
     -fx-text-fill: #ffffff;
 }
-
 .table-row-cell {
     -fx-text-fill: #ffffff;
     -fx-background-color: #2d2d2d;
@@ -175,18 +171,15 @@
 .titled-pane > .content {
     -fx-background-color: #2d2d2d;
 }
-
 .titled-pane > .title > .text {
     -fx-fill: #ffffff;
 }
-
 
 .status-bar {
     -fx-background-color: #383838;
     -fx-text-fill: #ffffff;
     -fx-padding: 5;
 }
-
 
 .scroll-bar {
     -fx-background-color: #2d2d2d;
@@ -200,7 +193,6 @@
 .scroll-bar .decrement-button {
     -fx-background-color: #383838;
 }
-
 
 .combo-box {
     -fx-background-color: #383838;
@@ -227,3 +219,7 @@
 .progress-bar > .track {
     -fx-background-color: #2d2d2d;
 }
+
+
+
+

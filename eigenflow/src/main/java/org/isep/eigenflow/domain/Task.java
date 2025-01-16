@@ -1,7 +1,6 @@
 package org.isep.eigenflow.domain;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +20,6 @@ public class Task {
     public static final String STATUS_IN_PROGRESS = "IN_PROGRESS";
     public static final String STATUS_DONE = "DONE";
 
-    // Constructor for new tasks
     public Task(String title) {
         this.title = title;
         this.completed = false;
@@ -31,30 +29,20 @@ public class Task {
         this.projectId = null;
     }
 
-    // Constructor for database tasks
     public Task(String title, String description, String status, String assignedMembers, UUID uuid) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.uuid = uuid;
         this.assignedMembers = new ArrayList<>();
-        this.completed = false; // Default value, can be updated later
+        this.completed = false;
         setAssignedMembersFromString(assignedMembers);
-        this.projectId = null;                    // Parse assigned members from string
+        this.projectId = null;
     }
 
 
-    public Integer getProjectId() { return projectId; }
-    public void setProjectId(Integer projectId) { this.projectId = projectId; }
-
-
-    // Getters and Setters
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -103,16 +91,10 @@ public class Task {
         }
     }
 
-    public void removeMember(String member) {
-        assignedMembers.remove(member);
-    }
-
-    // Convert assigned members list to a comma-separated string
     public String getAssignedMembersAsString() {
         return String.join(", ", assignedMembers);
     }
 
-    // Parse a comma-separated string into the assigned members list
     public void setAssignedMembersFromString(String assignedMembersStr) {
         if (assignedMembersStr != null && !assignedMembersStr.isEmpty()) {
             this.assignedMembers.clear();
@@ -120,7 +102,6 @@ public class Task {
         }
     }
 
-    // For ListView display
     @Override
     public String toString() {
         return title + " (" + status + ")";

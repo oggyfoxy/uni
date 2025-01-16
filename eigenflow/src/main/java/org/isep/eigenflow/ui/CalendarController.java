@@ -23,7 +23,6 @@ public class CalendarController {
 
     private final TaskRepository taskRepo = new TaskRepository();
     private final ProjectRepository projectRepo = new ProjectRepository();
-    private Project currentProject;
 
     @FXML
     public void initialize() {

@@ -19,11 +19,6 @@ public class Personel {
         this.projectHistory = new ArrayList<>();
     }
 
-    // Add all these getters
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
     public String getName() {
         return name;
     }
@@ -38,30 +33,6 @@ public class Personel {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public ArrayList<String> getProjectHistory() {
-        return projectHistory;
-    }
-
-    // existing methods
-    public void editPersonel(String name, String position, String email, String phoneNumber) {
-        this.name = name;
-        this.position = position;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void deletePersonel() {
-        this.name = null;
-        this.position = null;
-        this.email = null;
-        this.phoneNumber = null;
-        this.projectHistory.clear();
-    }
-
-    public void addProjectToHistory(String projectName) {
-        this.projectHistory.add(projectName);
     }
 
     @Override

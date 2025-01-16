@@ -29,9 +29,7 @@ public class TeamManagementController {
     @FXML
     private ListView<Project> projectHistoryListView;
 
-    private Personel selectedMember;  
-
-    private final PersonnelRepository personnelRepo = new PersonnelRepository();  
+    private final PersonnelRepository personnelRepo = new PersonnelRepository();
     private final ProjectRepository projectRepo = new ProjectRepository();  
 
     @FXML
