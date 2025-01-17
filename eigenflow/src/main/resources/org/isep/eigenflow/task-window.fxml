@@ -29,7 +29,6 @@
     <HBox spacing="20">
      
         <VBox spacing="10">
-            <Label text="TO DO"/>
             <ListView fx:id="todoList" prefWidth="300" prefHeight="400"/>
             <HBox spacing="10">
                 <Button text="Complete Task" onAction="#handleCompleteTask"/>

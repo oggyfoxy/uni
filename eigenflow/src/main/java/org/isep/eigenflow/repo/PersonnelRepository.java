@@ -77,4 +77,30 @@ public class PersonnelRepository {
         return personnel;
     }
 
+    public void deletePersonnel(int id) {
+        String sql = "DELETE FROM personnel WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePersonnel(Personel person) {
+        String sql = "UPDATE personnel SET name = ?, position = ?, email = ?, phone = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, person.getName());
+            pstmt.setString(2, person.getPosition());
+            pstmt.setString(3, person.getEmail());
+            pstmt.setString(4, person.getPhoneNumber());
+            pstmt.setInt(5, person.getEmployeeId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

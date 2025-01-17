@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.isep.eigenflow.domain.Personel;
 import org.isep.eigenflow.domain.Project;
+import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.repo.PersonnelRepository;
 import org.isep.eigenflow.repo.ProjectRepository;
 import org.isep.eigenflow.service.TaskService;
@@ -43,14 +44,15 @@ public class TaskController {
         todoList.setItems(todoTasks);
         memberList.setItems(availableMembers);
         statusFilter.setOnAction(event -> handleFilterTasks());
-        
-        statusFilter.setItems(FXCollections.observableArrayList("TODO", "IN_PROGRESS", "COMPLETED"));
 
-        
+        statusFilter.setItems(FXCollections.observableArrayList(
+                Task.STATUS_TODO,
+                Task.STATUS_IN_PROGRESS,
+                Task.STATUS_DONE
+        ));
         statusFilter.getSelectionModel().selectFirst();
-
-       
         statusFilter.setOnAction(event -> handleFilterTasks());
+        handleFilterTasks();
 
         List<Project> projects = projectRepo.getAllProjects();
         projectSelector.setItems(FXCollections.observableArrayList(projects));
@@ -182,10 +184,19 @@ public class TaskController {
     private void handleFilterTasks() {
         String status = statusFilter.getValue();
         if (status == null) {
-            return; 
+            return;
         }
-        
-        System.out.println("Filtering tasks by status: " + status);
+
+        // clear current tasks
+        todoTasks.clear();
+
+        // get tasks from repo based on status
+        List<Task> tasks = taskService.getTasksByStatus(status);
+
+        // add them to the observable list
+        for (Task task : tasks) {
+            todoTasks.add(task.getTitle() + " - " + task.getAssignedMembersAsString());
+        }
     }
 
 }

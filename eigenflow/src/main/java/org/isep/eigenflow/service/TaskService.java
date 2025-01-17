@@ -2,10 +2,15 @@ package org.isep.eigenflow.service;
 
 import org.isep.eigenflow.domain.Task;
 import org.isep.eigenflow.repo.TaskRepository;
+import java.util.List;
 
 public class TaskService {
     private TaskRepository taskRepo;
 
+
+    public List<Task> getTasksByStatus(String status) {
+        return taskRepo.getTasksByStatus(status);
+    }
 
     public TaskService() {
         this.taskRepo = new TaskRepository();

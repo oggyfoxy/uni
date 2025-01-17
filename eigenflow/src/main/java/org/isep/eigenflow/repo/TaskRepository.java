@@ -17,25 +17,28 @@ public class TaskRepository extends BaseRepository {
 
     private void initializeDatabase() {
         String tasksSQL = """
-        CREATE TABLE IF NOT EXISTS tasks (
-            uuid TEXT PRIMARY KEY,
-            title TEXT NOT NULL,
-            description TEXT,
-            status TEXT,
-            assignedMembers TEXT,
-            completed BOOLEAN DEFAULT 0
-        )
-        """;
+    CREATE TABLE IF NOT EXISTS tasks (
+        uuid TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        description TEXT,
+        status TEXT,
+        assignedMembers TEXT,
+        project_id INTEGER,
+        deadline TEXT,
+        completed BOOLEAN DEFAULT 0,
+        FOREIGN KEY (project_id) REFERENCES projects(project_id)
+    )
+    """;
 
         String projectTasksSQL = """
-        CREATE TABLE IF NOT EXISTS project_tasks (
-            project_id INTEGER,
-            task_uuid TEXT,
-            FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-            FOREIGN KEY (task_uuid) REFERENCES tasks(uuid) ON DELETE CASCADE,
-            PRIMARY KEY (project_id, task_uuid)
-        )
-        """;
+    CREATE TABLE IF NOT EXISTS project_tasks (
+        project_id INTEGER,
+        task_uuid TEXT,
+        FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE,
+        FOREIGN KEY (task_uuid) REFERENCES tasks(uuid) ON DELETE CASCADE,
+        PRIMARY KEY (project_id, task_uuid)
+    )
+    """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
@@ -45,6 +48,8 @@ public class TaskRepository extends BaseRepository {
             e.printStackTrace();
         }
     }
+
+
 
 
 
@@ -234,4 +239,29 @@ public class TaskRepository extends BaseRepository {
         }
     }
 
+    public List<Task> getTasksByStatus(String status) {
+        List<Task> tasks = new ArrayList<>();
+        String sql = "SELECT * FROM tasks WHERE status = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, status);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getString("assignedMembers"),
+                        UUID.fromString(rs.getString("uuid"))
+                );
+                task.setCompleted(rs.getBoolean("completed"));  // add this
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
 }

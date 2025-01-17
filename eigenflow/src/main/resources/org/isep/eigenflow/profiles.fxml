@@ -29,12 +29,13 @@
             <Button text="Add Personnel" onAction="#handleAddPersonnel"/>
         </VBox>
 
-        <TableView fx:id="personnelTable" VBox.vgrow="ALWAYS">
+        <TableView fx:id="personnelTable">
             <columns>
                 <TableColumn fx:id="nameColumn" text="Name"/>
                 <TableColumn fx:id="positionColumn" text="Position"/>
                 <TableColumn fx:id="emailColumn" text="Email"/>
                 <TableColumn fx:id="phoneColumn" text="Phone"/>
+                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
             </columns>
         </TableView>
     </HBox>

@@ -38,6 +38,27 @@ public class MyTasksController {
         loadMembers();
         setupListViews();
         setupMemberSelection();
+        setupTaskDetails();
+
+    }
+    private void setupTaskDetails() {
+        todoListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newTask) -> updateTaskDetails(newTask));
+        inProgressListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newTask) -> updateTaskDetails(newTask));
+        doneListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newTask) -> updateTaskDetails(newTask));
+    }
+
+    private void updateTaskDetails(Task task) {
+        if (task != null) {
+            taskTitleLabel.setText(task.getTitle());
+            taskDescriptionLabel.setText(task.getDescription());
+            taskAssigneeLabel.setText(task.getAssignedMembersAsString());
+            taskStatusLabel.setText(task.getStatus());
+        } else {
+            taskTitleLabel.setText("");
+            taskDescriptionLabel.setText("");
+            taskAssigneeLabel.setText("");
+            taskStatusLabel.setText("");
+        }
     }
 
     private void loadMembers() {
